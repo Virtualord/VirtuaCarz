@@ -74,6 +74,32 @@ const Contact = () => {
             </span>
           </a>
 
+          {/* Portfolio */}
+          <a
+            href="https://portfolio-site.adityapatkar81.workers.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-4 rounded-xl border border-[#3f3f3f] bg-[#212121] p-4 transition hover:bg-[#383838]"
+          >
+            <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#525252] text-lg text-[#ececec]">
+              <i className="fa-solid fa-globe" />
+            </div>
+
+            <div className="truncate">
+              <p className="text-sm text-[#737373]">
+                Visit Portfolio
+              </p>
+
+              <p className="mt-1 font-medium text-[#ececec] truncate">
+                portfolio-site.adityapatkar81.workers.dev
+              </p>
+            </div>
+
+            <span className="ml-auto text-[#737373] transition group-hover:translate-x-1 group-hover:text-[#ececec]">
+              →
+            </span>
+          </a>
+
         </div>
 
         {/* Footer Message */}

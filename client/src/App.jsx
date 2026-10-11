@@ -23,24 +23,26 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
-    <Toaster />
-    <Header />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/contact' element={<Contact />} />
-        {/* Auth */}
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        {/* cars */}
-        <Route path='/cars' element={<Cars />} />
-        <Route path='/cars/:id' element={<CarDetails />} />
-        {/* user */}
-        <Route path='/profile' element={<Profile />} />
-      </Routes>
+    <div className="flex min-h-screen flex-col bg-[#212121] text-[#ececec]">
+      <Toaster />
+      <Header />
+      <main className="flex-1 bg-[#212121]">
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/contact' element={<Contact />} />
+          {/* Auth */}
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          {/* cars */}
+          <Route path='/cars' element={<Cars />} />
+          <Route path='/cars/:id' element={<CarDetails />} />
+          {/* user */}
+          <Route path='/profile' element={<Profile />} />
+        </Routes>
+      </main>
       <Footer />
-    </>
+    </div>
   )
 }
 
