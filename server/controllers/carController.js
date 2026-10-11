@@ -157,7 +157,7 @@ export const updateCar = async (req, res) => {
         const car = await carModel.findByIdAndUpdate(
             id, 
             { $set: data},
-            { new: true, runValidators: true }
+            { returnDocument: "after", runValidators: true }
         );
         res.status(200).send({
             success: true,
