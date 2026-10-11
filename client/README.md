@@ -1,16 +1,22 @@
-# React + Vite
+# Customer app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The customer-facing React app for VirtuaCarz. It provides car browsing, vehicle details, account access, profile management, and booking flows.
 
-Currently, two official plugins are available:
+For full project setup, environment variables, API routes, and architecture, see the [repository README](../README.md).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Local development
 
-## React Compiler
+Create `.env.local` in this directory:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```dotenv
+VITE_BASEURL=http://localhost:8080/api/v1
+```
 
-## Expanding the ESLint configuration
+Then install dependencies and start Vite:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+Other available scripts: `npm run build`, `npm run lint`, and `npm run preview`.
