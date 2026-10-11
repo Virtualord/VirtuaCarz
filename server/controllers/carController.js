@@ -44,6 +44,10 @@ export const addCar = async (req, res) => {
             });
         }
         const photoBase64 = req.file.buffer.toString("base64");
+        const isTransmissionAutomatic = typeof transmission === "string"
+            ? transmission.toLowerCase() === "automatic" || transmission === "true"
+            : Boolean(transmission);
+
         const car = new carModel({
             name,
             about,
@@ -55,7 +59,7 @@ export const addCar = async (req, res) => {
             price,
             image: photoBase64,
             status,
-            transmission,
+            transmission: isTransmissionAutomatic,
             model
         });
 

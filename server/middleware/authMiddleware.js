@@ -4,12 +4,15 @@ import userModel from "../models/userModel.js";
 // user auth
 export const userAuth = async (req, res, next) => {
     try {
-        const token = req.headers.authorization
+        let token = req.headers.authorization
         if (!token) {
             return res.status(402).send({
                 success: false,
                 message: "Token not found"
             })
+        }
+        if (token.startsWith("Bearer ")) {
+            token = token.slice(7).trim();
         }
         const decode = JWT.verify(token, process.env.JWT_SECRET);
         req.user = decode;
