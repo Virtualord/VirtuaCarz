@@ -145,11 +145,19 @@ export const updateCar = async (req, res) => {
                 message: "Car Id not found",
             });
         }
-        const data = req.body
+        const data = { ...req.body };
+        if (Object.hasOwn(data, "transmission")) {
+            data.transmission = typeof data.transmission === "string"
+                ? data.transmission.toLowerCase() === "automatic" || data.transmission === "true"
+                : Boolean(data.transmission);
+        }
+        if (req.file) {
+            data.image = req.file.buffer.toString("base64");
+        }
         const car = await carModel.findByIdAndUpdate(
             id, 
             { $set: data},
-            { returnOrignal: false }
+            { new: true, runValidators: true }
         );
         res.status(200).send({
             success: true,

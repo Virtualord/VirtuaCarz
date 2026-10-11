@@ -15,7 +15,7 @@ router.get("/get-all", getAllCars);
 router.get("/:id", getCarDetails);
 
 // Update || PATCH
-router.patch("/update-car/:id", userAuth, isAdmin, updateCar);
+router.patch("/update-car/:id", userAuth, isAdmin, upload.single("image"), updateCar);
 
 // Delete || DELETE
 router.delete("/delete-car/:id", userAuth, isAdmin, deleteCar);
