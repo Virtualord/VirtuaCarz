@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { motion } from "framer-motion";
 
 const BookingModal = ({
   car,
@@ -44,23 +45,32 @@ const BookingModal = ({
   const totalPrice = rentalDays * Number(car?.price || 0);
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-6 backdrop-blur-sm"
+    <motion.div
+      key="booking-modal"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#18181b]/60 px-4 py-6 backdrop-blur-sm"
       onClick={onClose}
     >
       {/* Modal */}
-      <div
-        className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-[#3f3f3f] bg-[#2f2f2f] shadow-2xl"
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 16 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-md border border-line bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#3f3f3f] px-6 py-5">
+        <div className="flex items-center justify-between border-b border-line px-6 py-5">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#737373]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ink-soft">
               New Booking
             </p>
 
-            <h2 className="mt-1 text-xl font-semibold text-[#f5f5f5]">
+            <h2 className="mt-1 text-xl font-bold tracking-tight text-ink">
               Book {car?.name}
             </h2>
           </div>
@@ -68,7 +78,7 @@ const BookingModal = ({
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-xl text-[#a3a3a3] transition hover:bg-[#383838] hover:text-[#ececec]"
+            className="flex h-9 w-9 items-center justify-center rounded-md text-xl text-ink-soft transition-colors duration-200 hover:bg-cream hover:text-ink"
             aria-label="Close modal"
           >
             ×
@@ -79,19 +89,19 @@ const BookingModal = ({
         <div className="space-y-6 p-6">
 
           {/* Car Preview */}
-          <div className="flex items-center gap-4 rounded-xl border border-[#3f3f3f] bg-[#212121] p-3">
+          <div className="flex items-center gap-4 rounded-md border border-line bg-cream p-3">
             <img
               src={car?.image}
               alt={car?.name}
-              className="h-16 w-24 rounded-lg object-cover"
+              className="h-16 w-24 rounded-md object-cover"
             />
 
             <div>
-              <h3 className="font-medium text-[#ececec]">
+              <h3 className="font-bold text-ink">
                 {car?.name}
               </h3>
 
-              <p className="mt-1 text-sm text-[#a3a3a3]">
+              <p className="mt-1 text-sm text-ink-soft">
                 ₹{car?.price} / day
               </p>
             </div>
@@ -102,7 +112,7 @@ const BookingModal = ({
 
             {/* Pickup */}
             <div>
-              <label className="mb-2 block text-sm font-medium text-[#e5e5e5]">
+              <label className="mb-2 block text-sm font-semibold text-ink">
                 Pickup Date
               </label>
 
@@ -111,13 +121,13 @@ const BookingModal = ({
                 value={pickupDate}
                 min={new Date().toISOString().split("T")[0]}
                 onChange={(e) => setPickupDate(e.target.value)}
-                className="w-full rounded-xl border border-[#404040] bg-[#212121] px-4 py-3 text-sm text-[#ececec] outline-none transition focus:border-[#737373] focus:ring-2 focus:ring-[#737373]/30"
+                className="w-full rounded-md border border-line bg-cream px-4 py-3 text-sm font-medium text-ink outline-none transition-colors duration-200 focus:border-ink"
               />
             </div>
 
             {/* Return */}
             <div>
-              <label className="mb-2 block text-sm font-medium text-[#e5e5e5]">
+              <label className="mb-2 block text-sm font-semibold text-ink">
                 Return Date
               </label>
 
@@ -126,49 +136,49 @@ const BookingModal = ({
                 value={returnDate}
                 min={pickupDate}
                 onChange={(e) => setReturnDate(e.target.value)}
-                className="w-full rounded-xl border border-[#404040] bg-[#212121] px-4 py-3 text-sm text-[#ececec] outline-none transition focus:border-[#737373] focus:ring-2 focus:ring-[#737373]/30"
+                className="w-full rounded-md border border-line bg-cream px-4 py-3 text-sm font-medium text-ink outline-none transition-colors duration-200 focus:border-ink"
               />
             </div>
 
           </div>
 
           {/* Booking Summary */}
-          <div className="rounded-xl border border-[#3f3f3f] bg-[#212121] p-4">
+          <div className="rounded-md border border-line bg-cream p-4">
 
-            <h3 className="mb-4 text-sm font-semibold text-[#ececec]">
+            <h3 className="mb-4 text-sm font-bold text-ink">
               Booking Summary
             </h3>
 
             <div className="space-y-3 text-sm">
 
               <div className="flex justify-between">
-                <span className="text-[#a3a3a3]">
+                <span className="text-ink-soft">
                   Price per day
                 </span>
 
-                <span className="text-[#ececec]">
+                <span className="font-semibold text-ink">
                   ₹{car?.price}
                 </span>
               </div>
 
               <div className="flex justify-between">
-                <span className="text-[#a3a3a3]">
+                <span className="text-ink-soft">
                   Rental duration
                 </span>
 
-                <span className="text-[#ececec]">
+                <span className="font-semibold text-ink">
                   {rentalDays} {rentalDays === 1 ? "day" : "days"}
                 </span>
               </div>
 
-              <div className="h-px bg-[#3f3f3f]" />
+              <div className="h-px bg-line" />
 
               <div className="flex items-center justify-between">
-                <span className="font-medium text-[#ececec]">
+                <span className="font-semibold text-ink">
                   Total
                 </span>
 
-                <span className="text-xl font-bold text-[#f5f5f5]">
+                <span className="text-xl font-bold text-ink">
                   ₹{totalPrice}
                 </span>
               </div>
@@ -179,25 +189,25 @@ const BookingModal = ({
         </div>
 
         {/* Footer */}
-        <div className="flex flex-col-reverse gap-3 border-t border-[#3f3f3f] px-6 py-5 sm:flex-row sm:justify-end">
+        <div className="flex flex-col-reverse gap-3 border-t border-line px-6 py-5 sm:flex-row sm:justify-end">
 
           <button
             onClick={onClose}
-            className="rounded-xl border border-[#525252] px-5 py-2.5 text-sm font-medium text-[#ececec] transition hover:bg-[#383838]"
+            className="rounded-md border border-line px-5 py-2.5 text-sm font-semibold text-ink transition-colors duration-200 hover:bg-cream"
           >
             Cancel
           </button>
 
           <button
             onClick={onBooking}
-            className="rounded-xl bg-[#ececec] px-5 py-2.5 text-sm font-semibold text-[#171717] transition hover:bg-[#d4d4d4] active:scale-[0.98]"
+            className="rounded-md bg-accent px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:bg-accent-deep hover:shadow-[0_10px_24px_-10px_rgba(250,82,15,0.6)] active:scale-[0.98]"
           >
             Confirm Booking
           </button>
 
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

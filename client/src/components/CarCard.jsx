@@ -7,60 +7,66 @@ const getImageSrc = (image) => {
 };
 
 const CarCard = ({ car }) => {
+  const availability = car?.status === false;
+
   return (
-    <Link
-      to={`/cars/${car?._id}`}
-      className="group block w-full max-w-sm"
-    >
-      <article className="m-2 overflow-hidden rounded-2xl border border-[#3f3f3f] bg-[#2f2f2f] shadow-lg transition duration-300 hover:-translate-y-1 hover:border-[#525252] hover:shadow-2xl">
+    <Link to={`/cars/${car?._id}`} className="group block w-full max-w-sm">
+      <article className="m-2 overflow-hidden rounded-lg border border-line bg-white shadow-[0_16px_40px_-24px_rgba(24,24,27,0.25)] transition-all duration-500 ease-editorial hover:-translate-y-1 hover:shadow-[0_28px_60px_-28px_rgba(24,24,27,0.35)]">
 
         {/* Car Image */}
-        <div className="relative h-52 w-full overflow-hidden bg-[#171717]">
+        <div className="relative h-72 w-full overflow-hidden bg-cream-deep">
           <img
             src={getImageSrc(car?.image)}
             alt={car?.name || "Car"}
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-700 ease-editorial group-hover:scale-105"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#18181b]/70 via-transparent to-transparent" />
 
-          {/* Subtle overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          {/* Availability Pill */}
+          <div className="absolute top-4 left-4">
+            <span className={`rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm ${
+              availability
+                ? "bg-accent/95 text-white"
+                : "bg-[#18181b]/70 text-cream"
+            }`}>
+              {availability ? "Booked out" : "Available"}
+            </span>
+          </div>
         </div>
 
         {/* Card Content */}
-        <div className="p-5">
+        <div className="p-6">
 
           {/* Car Name */}
-          <h3 className="mb-2 truncate text-xl font-semibold tracking-tight text-[#ececec]">
-            {car?.name}
-          </h3>
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-xl font-bold tracking-tight text-ink transition-colors duration-300 group-hover:text-accent">
+              {car?.name}
+            </h3>
+            <span className="text-xs font-semibold text-ink-soft">{car?.year || "2026"}</span>
+          </div>
 
           {/* Description */}
-          <p className="mb-5 line-clamp-2 text-sm leading-6 text-[#a3a3a3]">
+          <p className="mb-6 line-clamp-2 text-sm leading-relaxed text-ink-soft">
             {car?.about || "No description available."}
           </p>
 
           {/* Divider */}
-          <div className="mb-4 h-px w-full bg-[#3f3f3f]" />
+          <div className="mb-4 h-px w-full bg-line" />
 
           {/* Price + CTA */}
           <div className="flex items-center justify-between gap-3">
-
-            {/* Price */}
             <div>
-              <p className="text-xs text-[#737373]">
+              <p className="text-xs font-semibold uppercase tracking-wider text-ink-soft">
                 Starting from
               </p>
 
-              <p className="text-base font-semibold text-[#ececec]">
+              <p className="text-lg font-bold text-ink">
                 ₹{car?.price}
-                <span className="ml-1 text-xs font-normal text-[#737373]">
-                  / day
-                </span>
+                <span className="ml-1 text-xs font-medium text-ink-soft"> / day</span>
               </p>
             </div>
 
-            {/* CTA */}
-            <span className="rounded-lg bg-[#ececec] px-3.5 py-2 text-sm font-semibold text-[#171717] transition group-hover:bg-[#d4d4d4]">
+            <span className="rounded-md bg-ink px-3.5 py-2 text-sm font-semibold text-cream transition-colors duration-300 group-hover:bg-accent">
               View details →
             </span>
 
