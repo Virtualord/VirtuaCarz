@@ -103,44 +103,54 @@ const CarDetails = () => {
   return (
     <Layout title="Vehicle Details">
       <div className="mx-auto max-w-6xl">
-        {/* Page header */}
-        <div className="mb-8 flex flex-col gap-4 border-b border-line pb-6 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <Link
-              to="/all-cars"
-              className="mb-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-soft transition-colors duration-200 hover:text-ink"
-            >
-              <i className="fa-solid fa-arrow-left text-[10px]" />
-              Back to fleet
-            </Link>
-            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-accent">
-              Fleet / Vehicle
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-bold tracking-[-0.03em] text-ink sm:text-4xl">
-              {name ? name : "Edit vehicle"}
-            </h2>
-            <p className="mt-2 text-sm text-ink-soft">
-              Update the listing details or retire this vehicle from the fleet.
-            </p>
-          </div>
+        {/* Editorial header */}
+        <div className="border-b border-line pb-8">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <Link
+                to="/all-cars"
+                className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-ink-soft transition-colors duration-200 hover:text-ink"
+              >
+                <i className="fa-solid fa-arrow-left text-[9px]" />
+                Back to fleet
+              </Link>
 
-          {loading && !carDetails && (
-            <span className="inline-flex items-center gap-2 text-xs text-ink-soft">
-              <i className="fa-solid fa-circle-notch animate-spin text-accent" />
-              Loading vehicle…
-            </span>
-          )}
+              <div className="mt-5 flex items-center gap-3">
+                <span className="h-px w-10 bg-accent" />
+                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
+                  Fleet / Vehicle
+                </p>
+              </div>
+
+              <h2 className="mt-5 font-display text-4xl font-bold tracking-[-0.045em] text-ink sm:text-5xl lg:text-6xl">
+                {name || "Edit vehicle"}
+                <span className="text-accent">.</span>
+              </h2>
+
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-soft">
+                Update the listing details or retire this vehicle from the
+                fleet.
+              </p>
+            </div>
+
+            {loading && !carDetails && (
+              <span className="inline-flex items-center gap-2 self-start text-xs text-ink-soft sm:self-end">
+                <i className="fa-solid fa-circle-notch animate-spin text-accent" />
+                Loading vehicle…
+              </span>
+            )}
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="grid grid-cols-1 gap-10 pt-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16 lg:pt-10">
           {/* Form */}
           <form
             onSubmit={handleUpdate}
-            className="rounded-md border border-line bg-white p-6 shadow-[0_16px_40px_-28px_rgba(24,24,27,0.28)] sm:p-8"
+            className="rounded-md border border-line bg-white p-6 sm:p-8"
           >
             {/* Basic details */}
             <div className="mb-8 border-b border-line pb-6">
-              <h3 className="mb-5 text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+              <h3 className="mb-5 text-[10px] font-bold uppercase tracking-[0.22em] text-accent">
                 Basic information
               </h3>
 
@@ -206,7 +216,7 @@ const CarDetails = () => {
 
             {/* Technical specs */}
             <div className="mb-8 border-b border-line pb-6">
-              <h3 className="mb-5 text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+              <h3 className="mb-5 text-[10px] font-bold uppercase tracking-[0.22em] text-accent">
                 Technical specifications
               </h3>
 
@@ -283,7 +293,7 @@ const CarDetails = () => {
 
             {/* Media & overview */}
             <div className="mb-8">
-              <h3 className="mb-5 text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+              <h3 className="mb-5 text-[10px] font-bold uppercase tracking-[0.22em] text-accent">
                 Media & overview
               </h3>
 
@@ -371,10 +381,17 @@ const CarDetails = () => {
             </div>
           </form>
 
-          {/* Live preview rail */}
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="overflow-hidden rounded-md border border-line bg-white shadow-[0_16px_40px_-28px_rgba(24,24,27,0.28)]">
-              <div className="relative aspect-[4/3] bg-cream-deep">
+          {/* Editorial rail */}
+          <aside className="border-t border-line pt-6 lg:sticky lg:top-24 lg:self-start lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-accent">
+              Live listing preview
+            </p>
+            <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-ink">
+              As renters see it.
+            </h3>
+
+            <div className="mt-6 overflow-hidden border border-line bg-cream-deep">
+              <div className="relative aspect-[4/3]">
                 {preview ? (
                   <img
                     src={preview}
@@ -390,58 +407,50 @@ const CarDetails = () => {
                   {category}
                 </span>
               </div>
+            </div>
 
-              <div className="p-5">
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
-                  Live listing preview
-                </p>
-                <h3 className="mt-2 text-xl font-bold tracking-tight text-ink">
-                  {name || "Vehicle name"}
-                </h3>
-                <p className="mt-1 text-xs text-ink-soft">
-                  {[model, year].filter(Boolean).join(" · ") || "Model · Year"}
-                </p>
+            <div className="border-b border-line pb-5 pt-5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink-soft">
+                {category}
+              </p>
+              <h3 className="mt-1.5 font-display text-xl font-bold tracking-tight text-ink">
+                {name || "Vehicle name"}
+              </h3>
+              <p className="mt-1 text-xs text-ink-soft">
+                {[model, year].filter(Boolean).join(" · ") || "Model · Year"}
+              </p>
 
-                <div className="mt-4 flex items-baseline gap-1.5 border-b border-line pb-4">
-                  <span className="text-2xl font-bold tracking-tight text-ink">
-                    ₹{Number(price || 0).toLocaleString("en-IN")}
-                  </span>
-                  <span className="text-xs text-ink-soft">/ day</span>
-                </div>
-
-                <dl className="mt-4 grid grid-cols-2 gap-3 text-xs">
-                  <div>
-                    <dt className="text-ink-soft">Fuel</dt>
-                    <dd className="mt-0.5 font-semibold text-ink">{fuel}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-ink-soft">Gearbox</dt>
-                    <dd className="mt-0.5 font-semibold text-ink">
-                      {transmission}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-ink-soft">Seats</dt>
-                    <dd className="mt-0.5 font-semibold text-ink">
-                      {seats} seats
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="text-ink-soft">Mileage</dt>
-                    <dd className="mt-0.5 font-semibold text-ink">
-                      {milage} km/l
-                    </dd>
-                  </div>
-                </dl>
+              <div className="mt-4 flex items-baseline gap-1.5">
+                <span className="font-display text-3xl font-bold tracking-[-0.04em] text-ink">
+                  ₹{Number(price || 0).toLocaleString("en-IN")}
+                </span>
+                <span className="text-xs text-ink-soft">/ day</span>
               </div>
             </div>
 
+            <dl className="divide-y divide-line border-b border-line">
+              {[
+                { label: "Fuel", value: fuel },
+                { label: "Gearbox", value: transmission },
+                { label: "Seats", value: `${seats} seats` },
+                { label: "Mileage", value: `${milage} km/l` },
+              ].map((row) => (
+                <div
+                  key={row.label}
+                  className="flex items-center justify-between py-2.5 text-xs"
+                >
+                  <dt className="text-ink-soft">{row.label}</dt>
+                  <dd className="font-semibold text-ink">{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+
             {/* Danger zone */}
-            <div className="mt-4 rounded-md border border-red-200 bg-red-50 p-5">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-red-700">
+            <div className="mt-8 border-t border-red-200 pt-5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-red-700">
                 Danger zone
               </p>
-              <p className="mt-1.5 text-xs leading-relaxed text-red-700/70">
+              <p className="mt-2 text-[11px] leading-relaxed text-ink-soft">
                 Deleting this vehicle removes it from the rental catalog. This
                 action cannot be undone.
               </p>
@@ -449,9 +458,9 @@ const CarDetails = () => {
                 type="button"
                 onClick={handleDelete}
                 disabled={loading}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-red-300 bg-white px-4 py-2.5 text-xs font-bold text-red-700 transition-colors duration-200 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-red-300 bg-transparent px-4 py-2.5 text-xs font-bold text-red-700 transition-colors duration-200 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <i className="fa-solid fa-trash-can" />
+                <i className="fa-solid fa-trash-can text-[10px]" />
                 Delete vehicle
               </button>
             </div>

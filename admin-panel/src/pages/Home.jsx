@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import { getAllCars } from "../store/carSlice";
 import { getAllBookings } from "../store/bookingSlice";
-import { Link } from "react-router-dom";
 
 const AdminHome = () => {
   const dispatch = useDispatch();
@@ -22,6 +22,25 @@ const AdminHome = () => {
   const grossValue = Array.isArray(bookings)
     ? bookings.reduce((sum, b) => sum + Number(b?.totalPrice || 0), 0)
     : 0;
+
+  const categoryCounts = (Array.isArray(cars) ? cars : []).reduce(
+    (counts, car) => {
+      const category = car?.category || "Other";
+      counts[category] = (counts[category] || 0) + 1;
+      return counts;
+    },
+    {}
+  );
+
+  const topCategories = Object.entries(categoryCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4);
+
+  const today = new Date().toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 
   const stats = [
     {
@@ -46,108 +65,178 @@ const AdminHome = () => {
 
   return (
     <Layout title="Dashboard">
-      <div className="mx-auto max-w-7xl space-y-8">
-        {/* Page Banner */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.28em] text-accent">
-              Overview
-            </p>
-            <h2 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-              Control Center
-            </h2>
-            <p className="mt-3 text-sm text-ink-soft max-w-xl">
-              Fleet health, reservation volume, and revenue at a glance — all
-              sourced live from your rental operations.
-            </p>
+      <div className="mx-auto max-w-7xl">
+        {/* Editorial hero */}
+        <section className="border-b border-line pb-10 sm:pb-14">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-end">
+            <div>
+              <div className="flex items-center gap-3">
+                <span className="h-px w-10 bg-accent" />
+                <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
+                  Overview
+                </p>
+              </div>
+
+              <h2 className="mt-6 font-display text-[3.5rem] font-bold leading-[0.9] tracking-[-0.05em] text-ink sm:text-7xl lg:text-[5.25rem]">
+                Control
+                <br />
+                center<span className="text-accent">.</span>
+              </h2>
+
+              <p className="mt-7 max-w-lg text-sm leading-relaxed text-ink-soft">
+                Fleet health, reservation volume, and revenue at a glance — all
+                sourced live from your rental operations.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-4 border-t border-line pt-5 lg:items-end lg:border-t-0 lg:pt-0">
+              <div className="lg:text-right">
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-ink-soft">
+                  Operations
+                </p>
+                <p className="mt-1.5 text-xs text-ink-soft">{today}</p>
+              </div>
+
+              <Link
+                to="/add-car"
+                className="inline-flex items-center justify-center gap-2.5 self-start whitespace-nowrap rounded-md bg-accent px-5 py-3 text-xs font-bold text-white shadow-[0_16px_32px_-18px_rgba(250,82,15,0.8)] transition-all duration-300 ease-editorial hover:bg-accent-deep active:scale-[0.99] lg:self-end"
+              >
+                <i className="fa-solid fa-plus text-[10px]" />
+                <span>Add a vehicle</span>
+                <i className="fa-solid fa-arrow-right text-[9px]" />
+              </Link>
+            </div>
           </div>
+        </section>
 
-          <Link
-            to="/add-car"
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md bg-accent px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-accent/30 transition-all duration-300 hover:bg-accent-deep sm:hidden"
-          >
-            <i className="fa-solid fa-plus font-bold"></i>
-            <span>Add New Car</span>
-          </Link>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+        {/* Stats ledger */}
+        <section className="grid grid-cols-1 divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {stats.map((stat, idx) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.08 * idx, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-md border border-line bg-white p-6 shadow-[0_16px_40px_-24px_rgba(24,24,27,0.25)]"
+              transition={{
+                duration: 0.6,
+                delay: 0.08 * idx,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className={`py-8 sm:py-10 ${
+                idx === 0
+                  ? "sm:pr-8"
+                  : idx === 1
+                  ? "sm:px-8"
+                  : "sm:pl-8"
+              }`}
             >
-              <div className="flex items-center justify-between">
-                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ink-soft">
+              <div className="flex items-center gap-2.5">
+                <i className={`${stat.icon} text-[11px] text-accent`} />
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-ink-soft">
                   {stat.label}
                 </p>
-                <div className="flex h-10 w-10 items-center justify-center rounded-md bg-cream-dark text-accent">
-                  <i className={`fa-solid ${stat.icon} text-base`}></i>
-                </div>
               </div>
-              <p className="mt-4 text-3xl font-bold tracking-tight text-ink">
+              <p className="mt-5 font-display text-5xl font-bold tracking-[-0.045em] text-ink sm:text-6xl">
                 {stat.value}
               </p>
-              <p className="mt-1 text-xs text-ink-soft">{stat.hint}</p>
+              <p className="mt-2.5 text-xs text-ink-soft">{stat.hint}</p>
             </motion.div>
           ))}
-        </div>
+        </section>
 
-        {/* Quick actions */}
-        <div className="rounded-md border border-line bg-white p-6 shadow-[0_16px_40px_-24px_rgba(24,24,27,0.25)]">
-          <h3 className="text-sm font-bold text-ink">Quick Actions</h3>
-          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Link
-              to="/add-car"
-              className="group flex items-center gap-4 rounded-md border border-line bg-cream p-4 transition-colors duration-200 hover:border-accent"
-            >
-              <div className="flex h-11 w-11 items-center justify-center rounded-md bg-white text-accent border border-line transition-colors duration-200 group-hover:border-accent">
-                <i className="fa-solid fa-square-plus"></i>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-ink">Add a new vehicle</p>
-                <p className="text-xs text-ink-soft">Publish a car to the rental fleet</p>
-              </div>
-            </Link>
-
-            <Link
-              to="/all-bookings"
-              className="group flex items-center gap-4 rounded-md border border-line bg-cream p-4 transition-colors duration-200 hover:border-accent"
-            >
-              <div className="flex h-11 w-11 items-center justify-center rounded-md bg-white text-accent border border-line transition-colors duration-200 group-hover:border-accent">
-                <i className="fa-solid fa-calendar-check"></i>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-ink">Review bookings</p>
-                <p className="text-xs text-ink-soft">Update reservation statuses</p>
-              </div>
-            </Link>
-          </div>
-        </div>
-
-        {/* Fleet snapshot */}
-        <div className="rounded-md border border-line bg-white p-6 shadow-[0_16px_40px_-24px_rgba(24,24,27,0.25)]">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <h3 className="text-sm font-bold text-ink">Fleet Snapshot</h3>
-              <p className="mt-1 text-xs text-ink-soft">
-                {carsLoading
-                  ? "Loading fleet…"
-                  : `${fleetCount} vehicle${fleetCount === 1 ? "" : "s"} currently in catalog`}
-              </p>
+        {/* Asymmetric lower section */}
+        <section className="grid grid-cols-1 gap-12 pt-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16 lg:pt-12">
+          <div>
+            <div className="flex items-baseline justify-between border-b border-line pb-4">
+              <h3 className="font-display text-2xl font-bold tracking-tight text-ink">
+                Quick actions
+              </h3>
+              <span className="font-mono text-[10px] tracking-[0.16em] text-ink-soft">
+                01 — 02
+              </span>
             </div>
+
+            <div>
+              <Link
+                to="/add-car"
+                className="group flex items-center justify-between gap-6 border-b border-line py-6 transition-all duration-300 ease-editorial hover:pl-2"
+              >
+                <div className="flex items-baseline gap-5">
+                  <span className="font-mono text-[10px] text-accent">01</span>
+                  <div>
+                    <p className="font-display text-lg font-semibold tracking-tight text-ink transition-colors duration-200 group-hover:text-accent">
+                      Add a new vehicle
+                    </p>
+                    <p className="mt-1 text-xs text-ink-soft">
+                      Publish a car to the rental fleet
+                    </p>
+                  </div>
+                </div>
+                <i className="fa-solid fa-arrow-right text-xs text-ink-soft transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent" />
+              </Link>
+
+              <Link
+                to="/all-bookings"
+                className="group flex items-center justify-between gap-6 border-b border-line py-6 transition-all duration-300 ease-editorial hover:pl-2"
+              >
+                <div className="flex items-baseline gap-5">
+                  <span className="font-mono text-[10px] text-accent">02</span>
+                  <div>
+                    <p className="font-display text-lg font-semibold tracking-tight text-ink transition-colors duration-200 group-hover:text-accent">
+                      Review bookings
+                    </p>
+                    <p className="mt-1 text-xs text-ink-soft">
+                      Update reservation statuses
+                    </p>
+                  </div>
+                </div>
+                <i className="fa-solid fa-arrow-right text-xs text-ink-soft transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent" />
+              </Link>
+            </div>
+          </div>
+
+          <aside className="border-t border-line pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-ink-soft">
+              Fleet snapshot
+            </p>
+            <p className="mt-5 font-display text-7xl font-bold leading-none tracking-[-0.06em] text-ink">
+              {fleetCount}
+            </p>
+            <p className="mt-3 text-xs text-ink-soft">
+              {carsLoading
+                ? "Loading fleet…"
+                : `vehicle${fleetCount === 1 ? "" : "s"} currently in catalog`}
+            </p>
+
+            <div className="mt-8 h-px w-full bg-line" />
+
+            <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.2em] text-ink-soft">
+              Fleet composition
+            </p>
+            {topCategories.length > 0 ? (
+              <ul className="mt-3 space-y-2">
+                {topCategories.map(([category, count]) => (
+                  <li
+                    key={category}
+                    className="flex items-center justify-between text-xs"
+                  >
+                    <span className="text-ink-soft">{category}</span>
+                    <span className="font-semibold text-ink">{count}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-3 text-xs text-ink-soft">No categories yet.</p>
+            )}
+
             <Link
               to="/all-cars"
-              className="text-xs font-bold text-accent hover:text-accent-deep transition-colors"
+              className="mt-7 inline-flex items-center gap-2 border-b border-ink pb-1 text-xs font-semibold text-ink transition-colors duration-200 hover:border-accent hover:text-accent"
             >
-              Manage fleet →
+              Manage fleet
+              <i className="fa-solid fa-arrow-right text-[9px]" />
             </Link>
-          </div>
-        </div>
+          </aside>
+        </section>
       </div>
     </Layout>
   );
