@@ -97,10 +97,10 @@ const AddCar = () => {
         {/* Page Banner */}
         <div className="mb-6 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-[#f5f5f5]">
+            <h2 className="text-2xl font-bold tracking-tight text-ink">
               Create Vehicle Listing
             </h2>
-            <p className="text-sm text-[#8c8c8c]">
+            <p className="text-sm text-ink-soft">
               Fill in the vehicle specifications to publish it in your fleet.
             </p>
           </div>
@@ -109,47 +109,47 @@ const AddCar = () => {
         {/* Main Form Card */}
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl border border-[#2a2a2a] bg-[#1a1a1a] p-6 sm:p-8 shadow-xl"
+          className="rounded-md border border-line bg-white p-6 shadow-[0_16px_40px_-24px_rgba(24,24,27,0.25)] sm:p-8"
         >
           {/* Section: Basic Details */}
-          <div className="mb-8 border-b border-[#2a2a2a] pb-6">
-            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-amber-400">
+          <div className="mb-8 border-b border-line pb-6">
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-accent">
               Basic Information
             </h3>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               {/* Car Name */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#c0c0c0]">
-                  Vehicle Name <span className="text-red-400">*</span>
+                <label className="mb-1.5 block text-xs font-medium text-ink">
+                  Vehicle Name <span className="text-accent">*</span>
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Honda City"
-                  className="w-full rounded-xl border border-[#333333] bg-[#222222] px-3.5 py-2.5 text-sm text-[#f5f5f5] placeholder-[#666666] outline-none transition focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/50"
+                  className="w-full rounded-md border border-line bg-cream px-3.5 py-2.5 text-sm text-ink placeholder-ink-soft outline-none transition-colors duration-200 focus:border-accent focus:ring-1 focus:ring-accent/50"
                 />
               </div>
 
               {/* Model */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#c0c0c0]">
-                  Model / Trim <span className="text-red-400">*</span>
+                <label className="mb-1.5 block text-xs font-medium text-ink">
+                  Model / Trim <span className="text-accent">*</span>
                 </label>
                 <input
                   type="text"
                   value={model}
                   onChange={(e) => setModel(e.target.value)}
                   placeholder="e.g. ZX CVT"
-                  className="w-full rounded-xl border border-[#333333] bg-[#222222] px-3.5 py-2.5 text-sm text-[#f5f5f5] placeholder-[#666666] outline-none transition focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/50"
+                  className="w-full rounded-md border border-line bg-cream px-3.5 py-2.5 text-sm text-ink placeholder-ink-soft outline-none transition-colors duration-200 focus:border-accent focus:ring-1 focus:ring-accent/50"
                 />
               </div>
 
               {/* Year */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#c0c0c0]">
-                  Manufacturing Year <span className="text-red-400">*</span>
+                <label className="mb-1.5 block text-xs font-medium text-ink">
+                  Manufacturing Year <span className="text-accent">*</span>
                 </label>
                 <input
                   type="number"
@@ -157,19 +157,19 @@ const AddCar = () => {
                   onChange={(e) => setYear(e.target.value)}
                   min="1990"
                   max="2030"
-                  className="w-full rounded-xl border border-[#333333] bg-[#222222] px-3.5 py-2.5 text-sm text-[#f5f5f5] placeholder-[#666666] outline-none transition focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/50"
+                  className="w-full rounded-md border border-line bg-cream px-3.5 py-2.5 text-sm text-ink outline-none transition-colors duration-200 focus:border-accent focus:ring-1 focus:ring-accent/50"
                 />
               </div>
 
               {/* Category */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#c0c0c0]">
-                  Body Category <span className="text-red-400">*</span>
+                <label className="mb-1.5 block text-xs font-medium text-ink">
+                  Body Category <span className="text-accent">*</span>
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full rounded-xl border border-[#333333] bg-[#222222] px-3.5 py-2.5 text-sm text-[#f5f5f5] outline-none transition focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/50 cursor-pointer"
+                  className="w-full rounded-md border border-line bg-cream px-3.5 py-2.5 text-sm text-ink outline-none transition-colors duration-200 focus:border-accent focus:ring-1 focus:ring-accent/50 cursor-pointer"
                 >
                   <option value="Hatchback">Hatchback</option>
                   <option value="Sedan">Sedan</option>
@@ -182,21 +182,21 @@ const AddCar = () => {
           </div>
 
           {/* Section: Technical Specs */}
-          <div className="mb-8 border-b border-[#2a2a2a] pb-6">
-            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-amber-400">
+          <div className="mb-8 border-b border-line pb-6">
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-accent">
               Technical Specifications
             </h3>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
               {/* Fuel */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#c0c0c0]">
+                <label className="mb-1.5 block text-xs font-medium text-ink">
                   Fuel Type
                 </label>
                 <select
                   value={fuel}
                   onChange={(e) => setFuel(e.target.value)}
-                  className="w-full rounded-xl border border-[#333333] bg-[#222222] px-3.5 py-2.5 text-sm text-[#f5f5f5] outline-none transition focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/50 cursor-pointer"
+                  className="w-full rounded-md border border-line bg-cream px-3.5 py-2.5 text-sm text-ink outline-none transition-colors duration-200 focus:border-accent focus:ring-1 focus:ring-accent/50 cursor-pointer"
                 >
                   <option value="Petrol">Petrol</option>
                   <option value="Diesel">Diesel</option>
@@ -207,13 +207,13 @@ const AddCar = () => {
 
               {/* Transmission */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#c0c0c0]">
+                <label className="mb-1.5 block text-xs font-medium text-ink">
                   Transmission
                 </label>
                 <select
                   value={transmission}
                   onChange={(e) => setTransmission(e.target.value)}
-                  className="w-full rounded-xl border border-[#333333] bg-[#222222] px-3.5 py-2.5 text-sm text-[#f5f5f5] outline-none transition focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/50 cursor-pointer"
+                  className="w-full rounded-md border border-line bg-cream px-3.5 py-2.5 text-sm text-ink outline-none transition-colors duration-200 focus:border-accent focus:ring-1 focus:ring-accent/50 cursor-pointer"
                 >
                   <option value="Manual">Manual</option>
                   <option value="Automatic">Automatic</option>
@@ -222,7 +222,7 @@ const AddCar = () => {
 
               {/* Seats */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#c0c0c0]">
+                <label className="mb-1.5 block text-xs font-medium text-ink">
                   Seats
                 </label>
                 <input
@@ -231,13 +231,13 @@ const AddCar = () => {
                   onChange={(e) => setSeats(e.target.value)}
                   min="1"
                   max="15"
-                  className="w-full rounded-xl border border-[#333333] bg-[#222222] px-3.5 py-2.5 text-sm text-[#f5f5f5] outline-none transition focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/50"
+                  className="w-full rounded-md border border-line bg-cream px-3.5 py-2.5 text-sm text-ink outline-none transition-colors duration-200 focus:border-accent focus:ring-1 focus:ring-accent/50"
                 />
               </div>
 
               {/* Mileage */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#c0c0c0]">
+                <label className="mb-1.5 block text-xs font-medium text-ink">
                   Mileage (km/l)
                 </label>
                 <input
@@ -245,17 +245,17 @@ const AddCar = () => {
                   value={milage}
                   onChange={(e) => setMilage(e.target.value)}
                   min="0"
-                  className="w-full rounded-xl border border-[#333333] bg-[#222222] px-3.5 py-2.5 text-sm text-[#f5f5f5] outline-none transition focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/50"
+                  className="w-full rounded-md border border-line bg-cream px-3.5 py-2.5 text-sm text-ink outline-none transition-colors duration-200 focus:border-accent focus:ring-1 focus:ring-accent/50"
                 />
               </div>
 
               {/* Price Per Day */}
               <div className="sm:col-span-2">
-                <label className="mb-1.5 block text-xs font-medium text-[#c0c0c0]">
-                  Price Per Day (₹) <span className="text-red-400">*</span>
+                <label className="mb-1.5 block text-xs font-medium text-ink">
+                  Price Per Day (₹) <span className="text-accent">*</span>
                 </label>
                 <div className="relative">
-                  <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-sm text-[#888888]">
+                  <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-sm text-ink-soft">
                     ₹
                   </span>
                   <input
@@ -264,28 +264,28 @@ const AddCar = () => {
                     onChange={(e) => setPrice(e.target.value)}
                     min="0"
                     placeholder="1000"
-                    className="w-full rounded-xl border border-[#333333] bg-[#222222] pl-8 pr-3.5 py-2.5 text-sm text-[#f5f5f5] outline-none transition focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/50"
+                    className="w-full rounded-md border border-line bg-cream pl-8 pr-3.5 py-2.5 text-sm text-ink outline-none transition-colors duration-200 focus:border-accent focus:ring-1 focus:ring-accent/50"
                   />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Section: Media & Description */}
+          {/* Section: Media & Overview */}
           <div className="mb-8">
-            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-amber-400">
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-accent">
               Media & Overview
             </h3>
 
             <div className="space-y-5">
               {/* Image Upload */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#c0c0c0]">
-                  Car Photo <span className="text-red-400">*</span>
+                <label className="mb-1.5 block text-xs font-medium text-ink">
+                  Car Photo <span className="text-accent">*</span>
                 </label>
-                <div className="flex flex-col sm:flex-row items-center gap-4 rounded-xl border border-dashed border-[#3d3d3d] bg-[#202020] p-4 text-center">
+                <div className="flex flex-col sm:flex-row items-center gap-4 rounded-md border border-dashed border-line bg-cream p-4 text-center">
                   {preview ? (
-                    <div className="relative h-28 w-44 shrink-0 overflow-hidden rounded-lg border border-[#3a3a3a] bg-black">
+                    <div className="relative h-28 w-44 shrink-0 overflow-hidden rounded-md border border-line bg-black">
                       <img
                         src={preview}
                         alt="Preview"
@@ -293,13 +293,13 @@ const AddCar = () => {
                       />
                     </div>
                   ) : (
-                    <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg bg-[#2a2a2a] text-[#777777]">
+                    <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-md bg-cream-dark text-ink-soft">
                       <i className="fa-solid fa-image text-2xl"></i>
                     </div>
                   )}
 
                   <div className="flex-1 text-center sm:text-left">
-                    <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-[#2e2e2e] hover:bg-[#383838] px-4 py-2 text-xs font-medium text-[#f5f5f5] transition border border-[#444444]">
+                    <label className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-cream border border-line hover:bg-cream-deep px-4 py-2 text-xs font-medium text-ink transition-colors duration-200">
                       <i className="fa-solid fa-upload"></i>
                       <span>Select Photo</span>
                       <input
@@ -309,7 +309,7 @@ const AddCar = () => {
                         className="hidden"
                       />
                     </label>
-                    <p className="mt-1 text-xs text-[#777777]">
+                    <p className="mt-1 text-xs text-ink-soft">
                       {image ? image.name : "PNG, JPG, or WEBP (Max 5MB)"}
                     </p>
                   </div>
@@ -318,15 +318,15 @@ const AddCar = () => {
 
               {/* Description */}
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-[#c0c0c0]">
-                  About Vehicle <span className="text-red-400">*</span>
+                <label className="mb-1.5 block text-xs font-medium text-ink">
+                  About Vehicle <span className="text-accent">*</span>
                 </label>
                 <textarea
                   value={about}
                   onChange={(e) => setAbout(e.target.value)}
                   rows="4"
                   placeholder="Provide detailed description, features, conditions, and highlights of this car..."
-                  className="w-full rounded-xl border border-[#333333] bg-[#222222] p-3.5 text-sm text-[#f5f5f5] placeholder-[#666666] outline-none transition focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/50"
+                  className="w-full rounded-md border border-line bg-cream p-3.5 text-sm text-ink placeholder-ink-soft outline-none transition-colors duration-200 focus:border-accent focus:ring-1 focus:ring-accent/50"
                 ></textarea>
               </div>
             </div>
@@ -337,7 +337,7 @@ const AddCar = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 px-6 py-3 font-semibold text-black transition shadow-lg shadow-amber-500/20 hover:from-amber-400 hover:to-amber-300 cursor-pointer ${
+              className={`flex items-center gap-2.5 rounded-md bg-accent px-6 py-3 font-bold text-white transition-all duration-300 shadow-lg shadow-accent/30 hover:bg-accent-deep cursor-pointer ${
                 loading ? "opacity-60 cursor-not-allowed" : ""
               }`}
             >

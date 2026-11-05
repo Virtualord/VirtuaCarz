@@ -1,1 +1,80 @@
 @import "tailwindcss";
+
+@theme {
+  /* ─── VirtuaCarz · Mistral-inspired design tokens ─── */
+  --color-cream: #fbfbf8;
+  --color-cream-dark: #f5f4ef;
+  --color-cream-deep: #f0eee6;
+  --color-ink: #18181b;
+  --color-ink-soft: #737373;
+  --color-accent: #fa520f;
+  --color-accent-deep: #d94400;
+  --color-line: #e5e5e5;
+  --color-ink-inverse: #fafafa;
+
+  --font-sans: "Figtree", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Figtree", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #fbfbf8;
+  color: #18181b;
+  font-family: "Figtree", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: #18181b;
+  color: #fbfbf8;
+}
+
+/* Slim, subtle scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #fbfbf8;
+}
+::-webkit-scrollbar-thumb {
+  background: #d8d5cc;
+  border-radius: 8px;
+  border: 2px solid #fbfbf8;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b8b4a8;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Figtree", ui-sans-serif, system-ui, sans-serif;
+    color: #18181b;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

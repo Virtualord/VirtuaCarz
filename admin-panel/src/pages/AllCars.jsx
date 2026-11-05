@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import Layout from '../components/Layout';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCars } from '../store/carSlice';
 import { Link } from 'react-router-dom';
+import Layout from '../components/Layout';
 
 const AllCars = () => {
   const dispatch = useDispatch();
@@ -26,21 +26,21 @@ const AllCars = () => {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="flex items-center gap-3">
-              <h2 className="text-xl font-bold tracking-tight text-[#f5f5f5]">
+              <h2 className="text-2xl font-bold tracking-tight text-ink">
                 Fleet Inventory
               </h2>
-              <span className="rounded-full bg-[#2a2a2a] px-2.5 py-0.5 text-xs font-semibold text-amber-400 border border-[#383838]">
+              <span className="rounded-md bg-cream-dark px-2.5 py-0.5 text-xs font-semibold text-accent border border-line">
                 {cars?.length || 0} vehicles
               </span>
             </div>
-            <p className="mt-1 text-xs text-[#8c8c8c]">
+            <p className="mt-1 text-sm text-ink-soft">
               Manage, review and update all vehicles listed in your rental catalog.
             </p>
           </div>
 
           <Link
             to="/add-car"
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 px-4 py-2.5 text-xs font-semibold text-black shadow-lg shadow-amber-500/20 hover:from-amber-400 hover:to-amber-300 transition w-fit"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-accent/30 transition-all duration-300 hover:bg-accent-deep"
           >
             <i className="fa-solid fa-plus font-bold"></i>
             <span>Add New Car</span>
@@ -49,39 +49,39 @@ const AllCars = () => {
 
         {/* Content Section */}
         {loading && (!cars || cars.length === 0) ? (
-          <div className="flex h-64 items-center justify-center rounded-2xl border border-[#2a2a2a] bg-[#1a1a1a]">
+          <div className="flex h-64 items-center justify-center rounded-md border border-line bg-white">
             <div className="flex flex-col items-center gap-2 text-center">
-              <i className="fa-solid fa-circle-notch animate-spin text-2xl text-amber-400"></i>
-              <span className="text-xs text-[#888888]">Loading vehicle fleet...</span>
+              <i className="fa-solid fa-circle-notch animate-spin text-2xl text-accent"></i>
+              <span className="text-xs text-ink-soft">Loading vehicle fleet...</span>
             </div>
           </div>
         ) : cars && cars.length > 0 ? (
-          <div className="overflow-hidden rounded-2xl border border-[#2a2a2a] bg-[#1a1a1a] shadow-xl">
+          <div className="overflow-hidden rounded-md border border-line bg-white shadow-[0_16px_40px_-24px_rgba(24,24,27,0.25)]">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-[#d4d4d4]">
-                <thead className="border-b border-[#2a2a2a] bg-[#202020] text-[11px] font-semibold uppercase tracking-wider text-[#888888]">
-                  <tr>
-                    <th scope="col" className="px-4 py-3.5">Vehicle</th>
-                    <th scope="col" className="px-4 py-3.5">Category</th>
-                    <th scope="col" className="px-4 py-3.5">Fuel</th>
-                    <th scope="col" className="px-4 py-3.5">Gear</th>
-                    <th scope="col" className="px-4 py-3.5">Seats</th>
-                    <th scope="col" className="px-4 py-3.5">Mileage</th>
-                    <th scope="col" className="px-4 py-3.5">Price / Day</th>
-                    <th scope="col" className="px-4 py-3.5">Status</th>
-                    <th scope="col" className="px-4 py-3.5 text-right">Actions</th>
+              <table className="w-full text-left text-sm text-ink">
+                <thead>
+                  <tr className="border-b border-line bg-cream">
+                    <th scope="col" className="px-4 py-3.5 text-[11px] font-semibold uppercase tracking-wider text-ink-soft">Vehicle</th>
+                    <th scope="col" className="px-4 py-3.5 text-[11px] font-semibold uppercase tracking-wider text-ink-soft">Category</th>
+                    <th scope="col" className="px-4 py-3.5 text-[11px] font-semibold uppercase tracking-wider text-ink-soft">Fuel</th>
+                    <th scope="col" className="px-4 py-3.5 text-[11px] font-semibold uppercase tracking-wider text-ink-soft">Gear</th>
+                    <th scope="col" className="px-4 py-3.5 text-[11px] font-semibold uppercase tracking-wider text-ink-soft">Seats</th>
+                    <th scope="col" className="px-4 py-3.5 text-[11px] font-semibold uppercase tracking-wider text-ink-soft">Mileage</th>
+                    <th scope="col" className="px-4 py-3.5 text-[11px] font-semibold uppercase tracking-wider text-ink-soft">Price / Day</th>
+                    <th scope="col" className="px-4 py-3.5 text-[11px] font-semibold uppercase tracking-wider text-ink-soft">Status</th>
+                    <th scope="col" className="px-4 py-3.5 text-right text-[11px] font-semibold uppercase tracking-wider text-ink-soft">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#262626]">
+                <tbody>
                   {cars.map((c) => (
                     <tr
                       key={c?._id}
-                      className="transition-colors hover:bg-[#222222]/70"
+                      className="border-b border-line last:border-b-0 transition-colors hover:bg-cream/60"
                     >
                       {/* Vehicle Image + Info */}
                       <td className="px-4 py-3.5">
                         <div className="flex items-center gap-3">
-                          <div className="h-12 w-16 shrink-0 overflow-hidden rounded-lg border border-[#333333] bg-[#121212] flex items-center justify-center">
+                          <div className="h-12 w-16 shrink-0 overflow-hidden rounded-md border border-line bg-cream-deep flex items-center justify-center">
                             {c?.image ? (
                               <img
                                 src={getImageSrc(c.image)}
@@ -89,14 +89,14 @@ const AllCars = () => {
                                 className="h-full w-full object-cover"
                               />
                             ) : (
-                              <i className="fa-solid fa-car text-xl text-[#555555]"></i>
+                              <i className="fa-solid fa-car text-xl text-ink-soft"></i>
                             )}
                           </div>
                           <div>
-                            <p className="font-semibold text-[#f5f5f5] text-sm leading-tight">
+                            <p className="font-semibold text-ink text-sm leading-tight">
                               {c?.name}
                             </p>
-                            <p className="text-xs text-[#808080] mt-0.5">
+                            <p className="text-xs text-ink-soft mt-0.5">
                               {c?.model} • {c?.year}
                             </p>
                           </div>
@@ -105,46 +105,46 @@ const AllCars = () => {
 
                       {/* Category */}
                       <td className="px-4 py-3.5">
-                        <span className="inline-block rounded-md bg-[#252525] px-2.5 py-1 text-xs font-medium text-[#cccccc] border border-[#333333]">
+                        <span className="inline-block rounded-md bg-cream-dark px-2.5 py-1 text-xs font-medium text-ink border border-line">
                           {c?.category || 'Sedan'}
                         </span>
                       </td>
 
                       {/* Fuel */}
-                      <td className="px-4 py-3.5 text-xs text-[#d0d0d0]">
+                      <td className="px-4 py-3.5 text-xs text-ink">
                         <span className="inline-flex items-center gap-1.5">
-                          <i className="fa-solid fa-gas-pump text-[10px] text-amber-400"></i>
+                          <i className="fa-solid fa-gas-pump text-[10px] text-accent"></i>
                           {c?.fuel}
                         </span>
                       </td>
 
                       {/* Transmission */}
                       <td className="px-4 py-3.5">
-                        <span className={`inline-block rounded-md px-2 py-0.5 text-xs font-medium ${
+                        <span className={`inline-block rounded-md border px-2 py-0.5 text-xs font-medium ${
                           c?.transmission
-                            ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20'
-                            : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                            ? 'border-accent/20 bg-accent/10 text-accent-deep'
+                            : 'border-line bg-cream-dark text-ink-soft'
                         }`}>
                           {c?.transmission ? 'Automatic' : 'Manual'}
                         </span>
                       </td>
 
                       {/* Seats */}
-                      <td className="px-4 py-3.5 text-xs text-[#d0d0d0]">
+                      <td className="px-4 py-3.5 text-xs text-ink">
                         {c?.seats} seats
                       </td>
 
                       {/* Mileage */}
-                      <td className="px-4 py-3.5 text-xs text-[#d0d0d0]">
+                      <td className="px-4 py-3.5 text-xs text-ink">
                         {c?.milage} km/l
                       </td>
 
                       {/* Price */}
                       <td className="px-4 py-3.5">
-                        <span className="font-semibold text-amber-400 text-sm">
+                        <span className="font-semibold text-accent text-sm">
                           ₹{c?.price}
                         </span>
-                        <span className="text-[11px] text-[#777777]">/day</span>
+                        <span className="text-[11px] text-ink-soft">/day</span>
                       </td>
 
                       {/* Status */}
@@ -152,13 +152,13 @@ const AllCars = () => {
                         <span
                           className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium border ${
                             c?.status !== false
-                              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                              : 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20'
+                              ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20'
+                              : 'bg-zinc-500/10 text-zinc-500 border-zinc-500/20'
                           }`}
                         >
                           <span
                             className={`h-1.5 w-1.5 rounded-full ${
-                              c?.status !== false ? 'bg-emerald-400' : 'bg-zinc-400'
+                              c?.status !== false ? 'bg-emerald-500' : 'bg-zinc-400'
                             }`}
                           ></span>
                           {c?.status !== false ? 'Available' : 'Unavailable'}
@@ -169,9 +169,9 @@ const AllCars = () => {
                       <td className="px-4 py-3.5 text-right">
                         <Link
                           to={`/car-details/${c?._id}`}
-                          className="inline-flex items-center gap-1.5 rounded-lg bg-[#282828] hover:bg-[#333333] px-3 py-1.5 text-xs font-medium text-[#f5f5f5] border border-[#3a3a3a] transition"
+                          className="inline-flex items-center gap-1.5 rounded-md bg-cream border border-line px-3 py-1.5 text-xs font-medium text-ink hover:border-ink hover:bg-cream-dark transition-colors duration-200"
                         >
-                          <i className="fa-solid fa-pen text-[10px] text-amber-400"></i>
+                          <i className="fa-solid fa-pen text-[10px] text-accent"></i>
                           <span>View / Edit</span>
                         </Link>
                       </td>
@@ -182,17 +182,17 @@ const AllCars = () => {
             </div>
           </div>
         ) : (
-          <div className="rounded-2xl border border-dashed border-[#333333] p-12 text-center bg-[#1a1a1a]">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#252525] text-amber-400 mb-3">
+          <div className="rounded-md border border-dashed border-line bg-white p-12 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-md bg-cream-dark text-accent mb-3">
               <i className="fa-solid fa-car text-2xl"></i>
             </div>
-            <h3 className="text-base font-semibold text-[#f5f5f5]">No vehicles registered</h3>
-            <p className="mt-1 text-xs text-[#888888] max-w-sm mx-auto">
+            <h3 className="text-base font-semibold text-ink">No vehicles registered</h3>
+            <p className="mt-1 text-sm text-ink-soft max-w-sm mx-auto">
               Your fleet is currently empty. Add your first car to start accepting rentals.
             </p>
             <Link
               to="/add-car"
-              className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 px-4 py-2 text-xs font-semibold text-black hover:from-amber-400 hover:to-amber-300 transition"
+              className="mt-5 inline-flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-2 text-xs font-bold text-white hover:bg-accent-deep transition-colors"
             >
               <i className="fa-solid fa-plus font-bold"></i>
               <span>Add First Car</span>
