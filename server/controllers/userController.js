@@ -154,3 +154,30 @@ export const updateUser = async (req, res) => {
     });
   }
 }
+
+// Get current user
+export const getUser = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user.id).select("-password");
+
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      message: "User fetched successfully",
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in get user API",
+      error,
+    });
+  }
+}
