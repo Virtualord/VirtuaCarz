@@ -1,7 +1,7 @@
 import './App.css'
 import { Routes, Route, useLocation } from "react-router";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { loadToken } from './store/features/authSlice';
 import Home from './pages/Home';
@@ -46,7 +46,8 @@ const MotionPage = ({ children }) => {
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { token } = useSelector((state) => state.auth);
+  const isAuthRoute =
+    location.pathname === "/login" || location.pathname === "/register";
 
   useEffect(() => {
     dispatch(loadToken());
@@ -55,7 +56,7 @@ function App() {
   return (
     <div className="flex min-h-screen flex-col bg-cream text-ink selection:bg-ink selection:text-cream">
       <Toaster />
-      <Header />
+      {!isAuthRoute && <Header />}
       <main className="flex-1">
         <AnimatePresence mode="wait">
           <MotionPage key={location.pathname}>
@@ -75,7 +76,7 @@ function App() {
           </MotionPage>
         </AnimatePresence>
       </main>
-      <Footer />
+      {!isAuthRoute && <Footer />}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import Eyebrow from "./Eyebrow";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -11,15 +12,13 @@ const SectionHeading = ({
   eyebrow,
   title,
   description,
-  align = "center",
-  titleSize = "text-4xl sm:text-5xl",
+  align = "left",
+  className = "",
 }) => {
   const prefersReducedMotion = useReducedMotion();
 
   const alignment =
-    align === "center"
-      ? "mx-auto text-center items-center"
-      : "text-left items-start";
+    align === "center" ? "mx-auto items-center text-center" : "items-start text-left";
 
   const titleVariants = {
     hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 26 },
@@ -41,24 +40,23 @@ const SectionHeading = ({
 
   return (
     <motion.div
-      className={`flex max-w-3xl flex-col gap-5 ${alignment}`}
+      className={`flex max-w-3xl flex-col gap-5 ${alignment} ${className}`}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
       variants={titleVariants}
     >
       {eyebrow && (
-        <motion.p
-          variants={descVariants}
-          className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#fa520f]"
-        >
-          {eyebrow}
-        </motion.p>
+        <motion.div variants={descVariants}>
+          <Eyebrow>{eyebrow}</Eyebrow>
+        </motion.div>
       )}
 
       <motion.h2
         variants={titleVariants}
-        className={`max-w-2xl text-4xl font-bold tracking-[-0.02em] text-[#18181b] sm:text-5xl lg:text-6xl ${align === "center" ? "mx-auto" : ""}`}
+        className={`max-w-2xl font-display text-4xl font-bold leading-[0.98] tracking-[-0.04em] text-ink sm:text-5xl lg:text-6xl ${
+          align === "center" ? "mx-auto" : ""
+        }`}
       >
         {title}
       </motion.h2>
@@ -66,7 +64,9 @@ const SectionHeading = ({
       {description && (
         <motion.p
           variants={descVariants}
-          className={`mt-2 max-w-2xl text-base leading-relaxed text-[#737373] sm:text-lg ${align === "center" ? "mx-auto" : ""}`}
+          className={`max-w-xl text-sm leading-relaxed text-ink-soft sm:text-base ${
+            align === "center" ? "mx-auto" : ""
+          }`}
         >
           {description}
         </motion.p>

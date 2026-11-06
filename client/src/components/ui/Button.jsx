@@ -2,22 +2,22 @@ import React from "react";
 
 const VARIANTS = {
   primary:
-    "bg-[#18181b] text-[#fbfbf8] hover:bg-[#000000] hover:shadow-[0_8px_24px_-8px_rgba(24,24,27,0.45)]",
+    "border border-ink bg-ink text-cream hover:border-accent hover:bg-accent hover:text-white",
   accent:
-    "bg-[#fa520f] text-white hover:bg-[#d94400] hover:shadow-[0_8px_24px_-8px_rgba(250,82,15,0.5)]",
+    "border border-accent bg-accent text-white hover:border-accent-deep hover:bg-accent-deep",
   outline:
-    "border border-[#d5d2c8] bg-transparent text-[#18181b] hover:border-[#18181b] hover:bg-[#18181b] hover:text-[#fbfbf8]",
+    "border border-line bg-transparent text-ink hover:border-ink hover:bg-ink hover:text-cream",
 };
 
 const SIZES = {
-  sm: "px-4 py-2 text-xs",
+  sm: "px-4 py-2.5 text-xs",
   md: "px-5 py-3 text-sm",
-  lg: "px-7 py-4 text-sm",
+  lg: "px-6 py-3.5 text-sm",
 };
 
 /**
- * Editorial primary action button.
- * Variants: "primary" (ink), "accent" (orange), "outline" (ghost ink).
+ * Editorial action button.
+ * Variants: "primary" (ink), "accent" (orange), "outline" (hairline).
  */
 const Button = ({
   children,
@@ -30,7 +30,7 @@ const Button = ({
   return (
     <button
       type={type}
-      className={`inline-flex items-center justify-center gap-2 rounded-md font-semibold tracking-tight transition-all duration-300 ease-editorial active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
+      className={`inline-flex items-center justify-center gap-2.5 rounded-md font-bold tracking-tight transition-all duration-300 ease-editorial focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-cream active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
       {...rest}
     >
       {children}

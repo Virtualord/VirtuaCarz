@@ -1,78 +1,78 @@
 import { Link } from "react-router";
-
-const getImageSrc = (image) => {
-  if (!image) return null;
-  if (image.startsWith("http") || image.startsWith("data:")) return image;
-  return `data:image/jpeg;base64,${image}`;
-};
+import { getImageSrc } from "../utils/image";
 
 const CarCard = ({ car }) => {
-  const availability = car?.status === false;
+  const isBookedOut = car?.status === false;
 
   return (
-    <Link to={`/cars/${car?._id}`} className="group block w-full max-w-sm">
-      <article className="m-2 overflow-hidden rounded-lg border border-line bg-white shadow-[0_16px_40px_-24px_rgba(24,24,27,0.25)] transition-all duration-500 ease-editorial hover:-translate-y-1 hover:shadow-[0_28px_60px_-28px_rgba(24,24,27,0.35)]">
-
-        {/* Car Image */}
-        <div className="relative h-72 w-full overflow-hidden bg-cream-deep">
+    <Link to={`/cars/${car?._id}`} className="group block">
+      <article>
+        <div className="relative aspect-[4/3] overflow-hidden border border-line bg-cream-deep">
           <img
             src={getImageSrc(car?.image)}
             alt={car?.name || "Car"}
-            className="h-full w-full object-cover transition-transform duration-700 ease-editorial group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-700 ease-editorial group-hover:scale-[1.03]"
+            loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#18181b]/70 via-transparent to-transparent" />
 
-          {/* Availability Pill */}
-          <div className="absolute top-4 left-4">
-            <span className={`rounded-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm ${
-              availability
-                ? "bg-accent/95 text-white"
-                : "bg-[#18181b]/70 text-cream"
-            }`}>
-              {availability ? "Booked out" : "Available"}
-            </span>
-          </div>
+          <span
+            className={`absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold ${
+              isBookedOut
+                ? "border-accent/30 bg-cream/95 text-accent"
+                : "border-line bg-cream/95 text-ink"
+            }`}
+          >
+            <span
+              className={`h-1.5 w-1.5 rounded-full ${
+                isBookedOut ? "bg-accent" : "bg-emerald-500"
+              }`}
+            />
+            {isBookedOut ? "Booked out" : "Available"}
+          </span>
         </div>
 
-        {/* Card Content */}
-        <div className="p-6">
-
-          {/* Car Name */}
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="text-xl font-bold tracking-tight text-ink transition-colors duration-300 group-hover:text-accent">
+        <div className="border-b border-line pb-5 pt-4">
+          <div className="flex items-baseline justify-between gap-3">
+            <h3 className="font-display text-xl font-bold tracking-tight text-ink transition-colors duration-300 group-hover:text-accent">
               {car?.name}
             </h3>
-            <span className="text-xs font-semibold text-ink-soft">{car?.year || "2026"}</span>
+            <span className="text-[11px] font-medium text-ink-soft">
+              {car?.year || "2026"}
+            </span>
           </div>
 
-          {/* Description */}
-          <p className="mb-6 line-clamp-2 text-sm leading-relaxed text-ink-soft">
+          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-soft">
             {car?.about || "No description available."}
           </p>
 
-          {/* Divider */}
-          <div className="mb-4 h-px w-full bg-line" />
+          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-ink-soft">
+            <span>{car?.category || "Sedan"}</span>
+            <span>{car?.fuel || "Petrol"}</span>
+            <span>{car?.seats || 5} seats</span>
+          </div>
 
-          {/* Price + CTA */}
-          <div className="flex items-center justify-between gap-3">
+          <div className="mt-5 flex items-end justify-between gap-3 border-t border-line pt-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-ink-soft">
-                Starting from
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-ink-soft">
+                From
               </p>
-
-              <p className="text-lg font-bold text-ink">
-                ₹{car?.price}
-                <span className="ml-1 text-xs font-medium text-ink-soft"> / day</span>
+              <p className="mt-1 font-display text-lg font-bold tracking-tight text-ink">
+                ₹{Number(car?.price || 0).toLocaleString("en-IN")}
+                <span className="ml-1 text-[11px] font-medium text-ink-soft">
+                  / day
+                </span>
               </p>
             </div>
 
-            <span className="rounded-md bg-ink px-3.5 py-2 text-sm font-semibold text-cream transition-colors duration-300 group-hover:bg-accent">
-              View details →
+            <span className="inline-flex items-center gap-2 text-[11px] font-semibold text-ink transition-colors duration-200 group-hover:text-accent">
+              View
+              <i
+                className="fa-solid fa-arrow-right text-[9px] text-ink-soft transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-accent"
+                aria-hidden="true"
+              />
             </span>
-
           </div>
         </div>
-
       </article>
     </Link>
   );
