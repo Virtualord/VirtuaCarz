@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import { getAllCars } from "../store/carSlice";
@@ -112,15 +111,8 @@ const AdminHome = () => {
         {/* Stats ledger */}
         <section className="grid grid-cols-1 divide-y divide-line border-b border-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
           {stats.map((stat, idx) => (
-            <motion.div
+            <div
               key={stat.label}
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.6,
-                delay: 0.08 * idx,
-                ease: [0.22, 1, 0.36, 1],
-              }}
               className={`py-8 sm:py-10 ${
                 idx === 0
                   ? "sm:pr-8"
@@ -139,7 +131,7 @@ const AdminHome = () => {
                 {stat.value}
               </p>
               <p className="mt-2.5 text-xs text-ink-soft">{stat.hint}</p>
-            </motion.div>
+            </div>
           ))}
         </section>
 
