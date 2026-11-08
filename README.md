@@ -80,7 +80,7 @@ flowchart LR
 
 ### 1. Configure the server
 
-Create `server/.env`:
+Create `server/.env` (or copy `server/.env.example`):
 
 ```dotenv
 PORT=8080
@@ -90,6 +90,7 @@ DEV_MODE=development
 ```
 
 Use your own MongoDB connection string and a private JWT secret. Keep `.env` files out of commits.
+Make sure the MongoDB server is running before starting the API.
 
 Install dependencies and start the API:
 
@@ -103,7 +104,7 @@ The API runs at `http://localhost:8080` by default. Its base path is `/api/v1`.
 
 ### 2. Configure and start the customer app
 
-Create `client/.env.local`:
+Create `client/.env.local` (or copy `client/.env.example`):
 
 ```dotenv
 VITE_BASEURL=http://localhost:8080/api/v1
@@ -119,7 +120,7 @@ npm run dev
 
 ### 3. Configure and start the admin panel
 
-Create `admin-panel/.env.local` with the same API URL:
+Create `admin-panel/.env.local` (or copy `admin-panel/.env.example`) with the same API URL:
 
 ```dotenv
 VITE_BASEURL=http://localhost:8080/api/v1
