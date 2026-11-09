@@ -1,0 +1,10 @@
+{
+	admin 127.0.0.1:2019
+}
+
+# Self-hosted VirtuaCarz: raw public IP on 443 behind Caddy.
+https://49.36.26.5:443 {
+	tls internal
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:8080
+}

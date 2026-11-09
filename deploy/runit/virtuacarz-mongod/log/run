@@ -1,0 +1,2 @@
+#!/bin/sh
+exec chpst -u aditya:aditya /usr/bin/svlogd -tt /var/log/virtuacarz-mongod

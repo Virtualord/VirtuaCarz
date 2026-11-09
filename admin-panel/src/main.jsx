@@ -10,7 +10,7 @@ import store from "./store/store";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.PROD ? "/admin" : "/"}>
         <App />
       </BrowserRouter>
     </Provider>

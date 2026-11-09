@@ -1,0 +1,5 @@
+#!/bin/sh
+exec 2>&1
+
+export NODE_ENV=production
+exec chpst -u aditya:aditya /home/aditya/.nvm/versions/node/v24.22.1/bin/node /home/aditya/Projects/VirtuaCarz/server/server.js
