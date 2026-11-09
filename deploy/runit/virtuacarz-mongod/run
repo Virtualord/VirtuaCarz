@@ -1,7 +1,0 @@
-#!/bin/sh
-exec 2>&1
-
-exec chpst -u aditya:aditya /usr/local/bin/mongod \
-  --dbpath /home/aditya/.local/share/virtuacarz/mongodb \
-  --bind_ip 127.0.0.1 \
-  --port 27017
