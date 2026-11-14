@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../store/authSlice";
+import BrandMark from "./BrandMark";
 
 const navGroups = [
   {
@@ -52,7 +53,7 @@ const Menus = ({ onNavigate }) => {
           className="flex items-center gap-3 px-1 transition-opacity duration-200 hover:opacity-80"
         >
           <span className="flex h-9 w-9 items-center justify-center rounded-md bg-accent text-white shadow-[0_8px_20px_-8px_rgba(250,82,15,0.6)]">
-            <i className="fa-solid fa-car text-xs" />
+            <BrandMark className="h-4 w-4" />
           </span>
           <div>
             <p className="text-[15px] font-bold tracking-tight text-ink">

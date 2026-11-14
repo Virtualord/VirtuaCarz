@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/features/authSlice";
 import { ADMIN_APP_URL } from "../utils/admin";
+import BrandMark from "./BrandMark";
 
 const NAV_LINKS = [
   { name: "Home", path: "/" },
@@ -92,7 +93,7 @@ const Header = () => {
               className="group flex items-center gap-2.5 text-lg font-bold tracking-tight text-ink transition-opacity duration-200 hover:opacity-80"
             >
               <span className="flex h-8 w-8 items-center justify-center rounded-md bg-accent text-white transition-transform duration-300 group-hover:scale-95">
-                <i className="fa-solid fa-car text-xs" aria-hidden="true" />
+                <BrandMark className="h-3.5 w-3.5" />
               </span>
               <span>
                 Virtua<span className="text-accent">Carz</span>
@@ -257,7 +258,7 @@ const Header = () => {
               <div className="flex items-center justify-between border-b border-line px-5 py-4">
                 <Link to="/" className="flex items-center gap-2.5 text-base font-bold tracking-tight text-ink">
                   <span className="flex h-8 w-8 items-center justify-center rounded-md bg-accent text-white">
-                    <i className="fa-solid fa-car text-xs" aria-hidden="true" />
+                    <BrandMark className="h-3.5 w-3.5" />
                   </span>
                   <span>
                     Virtua<span className="text-accent">Carz</span>

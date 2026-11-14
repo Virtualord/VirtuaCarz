@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
+import BrandMark from "./BrandMark";
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -39,7 +40,7 @@ const Footer = () => {
               className="inline-flex items-center gap-2.5 text-lg font-bold tracking-tight text-ink"
             >
               <span className="flex h-9 w-9 items-center justify-center rounded-md bg-accent text-white">
-                <i className="fa-solid fa-car text-xs" aria-hidden="true" />
+                <BrandMark className="h-4 w-4" />
               </span>
               <span>
                 Virtua<span className="text-accent">Carz</span>

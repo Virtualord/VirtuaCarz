@@ -59,6 +59,7 @@ VirtuaCarz is a car rental web application made up of three parts:
 Car_Rental/
 ├── client/          # Customer-facing React app
 ├── admin-panel/     # Admin React app
+├── brand/           # Favicon, app icon, and Open Graph source artwork
 └── server/          # Express API and MongoDB models
 ```
 

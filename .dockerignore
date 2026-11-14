@@ -24,5 +24,6 @@ dist
 # Docs and non-runtime files
 docs
 README.md
+brand
 render.yaml
 deploy

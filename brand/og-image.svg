@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="VirtuaCarz — Drive fearless. Premium self-drive car rentals across India.">
+  <defs>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#e5e5e5"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="#fbfbf8"/>
+  <rect width="1200" height="630" fill="url(#dots)" opacity="0.4"/>
+
+  <!-- Brand lockup -->
+  <g transform="translate(72 58) scale(0.875)">
+    <rect width="64" height="64" rx="15" fill="#fa520f"/>
+    <path d="M16.5 18.5 32 46.5l15.5-28" fill="none" stroke="#fbfbf8" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="148" y="99" font-family="Figtree" font-size="34" font-weight="800" letter-spacing="-0.8" fill="#18181b">Virtua<tspan fill="#fa520f">Carz</tspan></text>
+  <text x="149" y="121" font-family="Figtree" font-size="10.5" font-weight="600" letter-spacing="3.6" fill="#737373">SELF-DRIVE STUDIO</text>
+
+  <!-- Headline -->
+  <text x="68" y="294" font-family="Figtree" font-size="132" font-weight="800" letter-spacing="-5" fill="#18181b">Drive</text>
+  <text x="68" y="416" font-family="Figtree" font-size="132" font-weight="800" letter-spacing="-5" fill="#18181b">fearless<tspan fill="#fa520f">.</tspan></text>
+
+  <!-- Supporting copy -->
+  <text x="74" y="470" font-family="Figtree" font-size="23" font-weight="500" fill="#737373">Premium self-drive car rentals across 50+ Indian cities.</text>
+  <text x="74" y="504" font-family="Figtree" font-size="23" font-weight="500" fill="#737373">Zero security deposit. Doorstep delivery. 24/7 assistance.</text>
+
+  <!-- Benefit pills -->
+  <g>
+    <rect x="72" y="538" width="196" height="50" rx="25" fill="#ffffff" stroke="#e5e5e5"/>
+    <circle cx="96" cy="563" r="4" fill="#fa520f"/>
+    <text x="110" y="570" font-family="Figtree" font-size="19" font-weight="600" fill="#18181b">Zero deposit</text>
+
+    <rect x="286" y="538" width="244" height="50" rx="25" fill="#ffffff" stroke="#e5e5e5"/>
+    <circle cx="310" cy="563" r="4" fill="#fa520f"/>
+    <text x="324" y="570" font-family="Figtree" font-size="19" font-weight="600" fill="#18181b">Doorstep delivery</text>
+
+    <rect x="548" y="538" width="188" height="50" rx="25" fill="#ffffff" stroke="#e5e5e5"/>
+    <circle cx="572" cy="563" r="4" fill="#fa520f"/>
+    <text x="586" y="570" font-family="Figtree" font-size="19" font-weight="600" fill="#18181b">24/7 support</text>
+  </g>
+
+  <!-- Hero mark -->
+  <g transform="rotate(-7 990 320)">
+    <rect x="808" y="150" width="330" height="330" rx="74" fill="#f0eee6"/>
+    <rect x="828" y="170" width="330" height="330" rx="74" fill="#fa520f"/>
+    <path d="M918 270 993 392l75-122" fill="none" stroke="#fbfbf8" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Footer note -->
+  <text x="1128" y="600" text-anchor="end" font-family="Figtree" font-size="12" font-weight="700" letter-spacing="3" fill="#737373">THE ROAD IS YOURS.</text>
+
+  <!-- Accent rule -->
+  <rect width="1200" height="10" fill="#fa520f"/>
+</svg>

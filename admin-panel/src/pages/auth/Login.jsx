@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, reset } from "../../store/authSlice";
+import BrandMark from "../../components/BrandMark";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -54,7 +55,7 @@ const Login = () => {
         <div className="relative">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-md bg-accent text-white shadow-[0_8px_24px_-8px_rgba(250,82,15,0.65)]">
-              <i className="fa-solid fa-car text-xs" />
+              <BrandMark className="h-4 w-4" />
             </span>
             <div>
               <p className="text-base font-bold tracking-tight text-cream">
@@ -105,7 +106,7 @@ const Login = () => {
           {/* Compact brand for small screens */}
           <div className="mb-10 flex items-center gap-3 lg:hidden">
             <span className="flex h-10 w-10 items-center justify-center rounded-md bg-accent text-white">
-              <i className="fa-solid fa-car text-xs" />
+              <BrandMark className="h-4 w-4" />
             </span>
             <div>
               <p className="text-base font-bold tracking-tight text-ink">

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import { register } from "../../store/features/authSlice";
+import BrandMark from "../../components/BrandMark";
 
 const Register = () => {
   const [uname, setUname] = useState("");
@@ -79,7 +80,7 @@ const Register = () => {
         <div className="relative">
           <Link to="/" className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-md bg-accent text-white">
-              <i className="fa-solid fa-car text-xs" aria-hidden="true" />
+              <BrandMark className="h-4 w-4" />
             </span>
             <div>
               <p className="text-base font-bold tracking-tight text-cream">
@@ -129,7 +130,7 @@ const Register = () => {
           <div className="mb-10 flex items-center gap-3 lg:hidden">
             <Link to="/" className="flex items-center gap-3">
               <span className="flex h-10 w-10 items-center justify-center rounded-md bg-accent text-white">
-                <i className="fa-solid fa-car text-xs" aria-hidden="true" />
+                <BrandMark className="h-4 w-4" />
               </span>
               <div>
                 <p className="text-base font-bold tracking-tight text-ink">
