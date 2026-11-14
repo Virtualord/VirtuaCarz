@@ -217,39 +217,151 @@ npm start
 Open `http://localhost:8080/`; the admin panel is at
 `http://localhost:8080/admin/`.
 
-### Deploying to Render
+### Run with Docker
 
-1. Create a MongoDB Atlas cluster (M0 is enough), add a database user, and copy
-   the SRV connection string. Add `/virtuacarz` before the `?`. Allow
-   connections from Render (`0.0.0.0/0` on the free plan).
-2. In Render, create a **Web Service** from this repository and leave the root
-   directory at the repository root.
-3. Set the build command to `npm run install:all && npm run build`, the start
-   command to `npm start`, and the health check path to `/api/health`.
-4. Add these environment variables:
+The repository includes a multi-stage `Dockerfile` that builds both frontends
+and runs them with production-only server dependencies. `.dockerignore` keeps
+`node_modules`, build output, and every `.env` file out of the image.
+
+Build and run it:
+
+```bash
+docker build -t virtuacarz .
+docker run --rm -p 8080:8080 \
+  --env-file server/.env \
+  -e PORT=8080 \
+  -e HOST=0.0.0.0 \
+  virtuacarz
+```
+
+Open `http://localhost:8080/`; the admin panel is at
+`http://localhost:8080/admin/`.
+
+If port `8080` is already in use on your machine, publish a different port:
+
+```bash
+docker run --rm -p 8081:8080 --env-file server/.env \
+  -e PORT=8080 -e HOST=0.0.0.0 virtuacarz
+```
+
+Then open `http://localhost:8081/`.
+
+If the build fails while downloading packages with `EAI_AGAIN` or a registry
+timeout, rebuild using the host's network and DNS:
+
+```bash
+docker build --network=host -t virtuacarz .
+```
+
+`npm ci` is configured with extra retries, but `--network=host` is the quickest
+fix when Docker's embedded DNS cannot reach the registry.
+
+`--env-file` passes configuration at runtime; nothing from `server/.env` is
+baked into the image. The container needs a MongoDB host it can reach. If
+`MONGO_URI` contains `127.0.0.1`, the container will look for MongoDB inside
+itself — use an Atlas URI instead, or `host.docker.internal` when the database
+runs on the Docker host.
+
+### Deploy to Render with Docker
+
+#### Option A — Render Blueprint (recommended)
+
+`render.yaml` in the repository root defines the whole service:
+
+- Runtime: Docker, using `./Dockerfile`
+- Plan: `free` ($0, no card required; sleeps after 15 minutes of inactivity)
+- Health check: `/api/health`
+- `JWT_SECRET`: generated automatically by Render
+- `MONGO_URI`: prompted for when the Blueprint is created
+
+1. Push this repository to GitHub, GitLab, or Bitbucket.
+2. In Render, click **New > Blueprint** and connect the repository.
+3. Choose the branch you want to deploy (usually `main` or `master`).
+4. When Render asks for `MONGO_URI`, paste the MongoDB Atlas SRV connection
+   string with `/virtuacarz` before the `?` query parameters.
+5. Click **Apply**. Render builds the image and deploys the service.
+
+When the deploy finishes, open `https://<service-name>.onrender.com/`; the admin
+panel is at `/admin/`.
+
+#### Option B — Create the web service manually
+
+1. Click **New > Web Service**, connect the repository, and leave **Root
+   Directory** empty.
+2. Set **Language** to **Docker**.
+3. Set **Dockerfile Path** to `./Dockerfile` and **Docker Build Context** to `.`.
+4. Choose the **Free** plan ($0, no card required). It spins down after 15
+   minutes of inactivity. Upgrade to **0.5c-512mb** ($7/month, always on) if
+   you want to use Render credits.
+5. Set **Health Check Path** to `/api/health`.
+6. Add these environment variables:
 
    | Variable | Value |
    | --- | --- |
-   | `MONGO_URI` | Atlas SRV connection string |
-   | `JWT_SECRET` | A long random string (`openssl rand -hex 32`) |
+   | `MONGO_URI` | Atlas SRV connection string (include `/virtuacarz`) |
+   | `JWT_SECRET` | Output of `openssl rand -hex 32` |
    | `DEV_MODE` | `production` |
-   | `NODE_VERSION` | `24` |
+   | `HOST` | `0.0.0.0` (optional; already the image default) |
 
-   Do not set `PORT`; Render provides it.
-5. Deploy, then open `https://<service>.onrender.com/`. The admin panel is at
-   `/admin/`.
+   Do not set `PORT`. Render supplies it at runtime (10000 by default), and
+   the server reads it automatically. The Dockerfile's `8080` default is only
+   for standalone `docker run`.
+7. Click **Create Web Service** and wait for the first deploy.
+
+#### MongoDB Atlas
+
+1. Create a free **M0** cluster, add a database user, and copy the SRV
+   connection string.
+2. Under **Network Access**, allow `0.0.0.0/0` if you are on the free plan.
+   Render's outbound IPs are not static, so an allowlist is not practical
+   without a paid egress option.
+3. Add `/virtuacarz` before the `?` in the URI and use it as `MONGO_URI`.
 
 The production frontends fall back to `/api/v1` on their own origin, so
 `VITE_BASEURL` is not required. If you set it, use a URL reachable from the
 browser.
 
-> Render's free instance sleeps after inactivity, so the first request after a
-> quiet period can take 30–60 seconds. Use a paid instance if you need it
-> always-on.
+### Using your $50 Render credits
 
-The same build and start commands work on Railway and Fly.io. For a VPS, run
-`npm start` behind Caddy or nginx and proxy port `8080`. Set `HOST=127.0.0.1`
-if the proxy runs on the same machine.
+The Blueprint is configured for the **Free** plan so it works without a credit
+card. Your credits stay available if you later upgrade the service to a paid
+plan.
+
+1. Open the Render Dashboard in the **workspace** that will own the service.
+2. Go to **Billing → Credit Balance**, enter the promo code, and click
+   **Apply**. If the credits were granted automatically, the balance already
+   appears there.
+3. Credits are **workspace-specific** and cannot be transferred to another
+   workspace. Redeem them in the workspace where you create the service.
+4. Render does **not** spend credits in real time. At the end of each monthly
+   billing period it calculates the workspace bill and deducts that amount
+   from the credit balance. Any remainder is charged to the payment method on
+   file. Credits do not cover charges from previous months.
+5. Adding credits does not upgrade the workspace or the service. `render.yaml`
+   currently selects `free`; change it to `0.5c-512mb` to use credits.
+6. Promo credits can expire. Check the **Billing** page or the terms of the
+   promotion you received.
+
+Cost with this setup:
+
+| Item | Cost |
+| --- | --- |
+| Free web service | $0/month, sleeps after 15 minutes idle |
+| `0.5c-512mb` upgrade | $7/month, always on |
+| Hobby workspace | $0/month |
+| Included bandwidth | 5 GB/month, then $0.15/GB |
+| Included pipeline minutes | 500/month, then $5 per 1,000 |
+| `1c-2g` upgrade (optional) | $25/month |
+
+The Blueprint currently uses the Free plan, so it does not consume credits. If
+you upgrade to `0.5c-512mb`, $50 of credits covers roughly **7 months** with no
+extra bandwidth or build charges. On the $25/month plan it would last about two
+months. The Free plan spins down after 15 minutes of inactivity and takes about
+a minute to wake up.
+
+> Render can require a payment method on file to create a paid service even
+> when credits will cover the bill; the credits are applied to the invoice at
+> the end of the billing period.
 
 ## Notes
 

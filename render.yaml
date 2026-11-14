@@ -1,0 +1,23 @@
+# Docker Blueprint for Render. The free plan requires no payment method and
+# sleeps after 15 minutes of inactivity. Switch to 0.5c-512mb ($7/month,
+# always on) if you want to use Render credits.
+# Render supplies PORT (10000 by default), so it is not defined here.
+services:
+  - type: web
+    name: virtuacarz
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: DEV_MODE
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true

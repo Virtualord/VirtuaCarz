@@ -1,0 +1,28 @@
+# Version control
+.git
+.gitignore
+.github
+
+# Dependencies and build output
+node_modules
+**/node_modules
+dist
+**/dist
+
+# Local environment and secrets
+.env
+**/.env
+**/.env.*
+!**/.env.example
+
+# Logs and editor files
+*.log
+.DS_Store
+.vscode
+.idea
+
+# Docs and non-runtime files
+docs
+README.md
+render.yaml
+deploy
