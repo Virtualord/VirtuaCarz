@@ -7,10 +7,13 @@ import { Provider } from "react-redux";
 
 import store from "./store/store";
 
+// BASE_URL is "/admin/" in both development and production builds.
+const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename={routerBasename}>
         <App />
       </BrowserRouter>
     </Provider>

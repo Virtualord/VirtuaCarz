@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 import { motion } from "framer-motion";
-import { login } from "../../store/features/authSlice";
+import { login, logout } from "../../store/features/authSlice";
+import { ADMIN_APP_URL } from "../../utils/admin";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
+  const [adminMode, setAdminMode] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -17,10 +19,11 @@ const Login = () => {
   const { loading, token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (token) {
+    // Do not race the full-page redirect to the admin studio.
+    if (token && !adminMode) {
       navigate("/");
     }
-  }, [token, navigate]);
+  }, [token, adminMode, navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,15 +34,30 @@ const Login = () => {
     }
 
     try {
-      await dispatch(
+      const appData = await dispatch(
         login({
           email: email.trim(),
           password,
         })
       ).unwrap();
 
+      if (adminMode && !appData?.user?.isAdmin) {
+        dispatch(logout());
+        toast.error("This account does not have administrator access.");
+        return;
+      }
+
       setEmail("");
       setPassword("");
+
+      if (adminMode) {
+        toast.success("Administrator verified. Opening the studio…");
+        // Both SPAs share this origin and localStorage, so the admin panel
+        // picks up the session that was just created.
+        window.location.assign(ADMIN_APP_URL);
+        return;
+      }
+
       toast.success("Login successful!");
       navigate("/cars");
     } catch (error) {
@@ -138,22 +156,73 @@ const Login = () => {
             <div className="flex items-center gap-3">
               <span className="h-px w-10 bg-accent" aria-hidden="true" />
               <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent">
-                Welcome back
+                {adminMode ? "Administrator access" : "Welcome back"}
               </p>
             </div>
 
-            <h2 className="mt-4 font-display text-4xl font-bold leading-[0.98] tracking-[-0.04em] text-ink sm:text-[2.75rem]">
-              Sign in to drive<span className="text-accent">.</span>
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-              Don&apos;t have an account?{" "}
-              <Link
-                to="/register"
-                className="font-semibold text-ink underline underline-offset-4 hover:text-accent"
+            <div
+              className="mt-6 grid grid-cols-2 gap-1 rounded-md border border-line bg-white p-1"
+              role="group"
+              aria-label="Choose account type"
+            >
+              <button
+                type="button"
+                onClick={() => setAdminMode(false)}
+                aria-pressed={!adminMode}
+                className={`flex items-center justify-center gap-2 rounded-sm px-3 py-2.5 text-xs font-bold transition-colors duration-200 ${
+                  !adminMode
+                    ? "bg-ink text-cream"
+                    : "text-ink-soft hover:text-ink"
+                }`}
               >
-                Create one
-              </Link>
-            </p>
+                <i className="fa-solid fa-user text-[10px]" aria-hidden="true" />
+                Customer
+              </button>
+              <button
+                type="button"
+                onClick={() => setAdminMode(true)}
+                aria-pressed={adminMode}
+                className={`flex items-center justify-center gap-2 rounded-sm px-3 py-2.5 text-xs font-bold transition-colors duration-200 ${
+                  adminMode
+                    ? "bg-ink text-cream"
+                    : "text-ink-soft hover:text-ink"
+                }`}
+              >
+                <i
+                  className="fa-solid fa-shield-halved text-[10px]"
+                  aria-hidden="true"
+                />
+                Administrator
+              </button>
+            </div>
+
+            <h2 className="mt-6 font-display text-4xl font-bold leading-[0.98] tracking-[-0.04em] text-ink sm:text-[2.75rem]">
+              {adminMode ? (
+                <>
+                  Admin studio access<span className="text-accent">.</span>
+                </>
+              ) : (
+                <>
+                  Sign in to drive<span className="text-accent">.</span>
+                </>
+              )}
+            </h2>
+            {adminMode ? (
+              <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+                Use an administrator account to manage the fleet, review
+                bookings, and keep operations moving.
+              </p>
+            ) : (
+              <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+                Don&apos;t have an account?{" "}
+                <Link
+                  to="/register"
+                  className="font-semibold text-ink underline underline-offset-4 hover:text-accent"
+                >
+                  Create one
+                </Link>
+              </p>
+            )}
 
             <form onSubmit={handleSubmit} className="mt-9 space-y-5">
               <div>
@@ -173,7 +242,9 @@ const Login = () => {
                     id="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    placeholder="name@example.com"
+                    placeholder={
+                      adminMode ? "admin@virtuacarz.com" : "name@example.com"
+                    }
                     autoComplete="email"
                     required
                     className="w-full rounded-md border border-line bg-white py-3.5 pl-10 pr-4 text-sm font-medium text-ink placeholder-ink-soft/70 outline-none transition-all duration-300 focus:border-ink focus:ring-1 focus:ring-ink/10"
@@ -254,48 +325,59 @@ const Login = () => {
                   </>
                 ) : (
                   <>
-                    <span>Enter the studio</span>
-                    <i className="fa-solid fa-arrow-right text-[11px]" aria-hidden="true" />
+                    <span>
+                      {adminMode ? "Open admin studio" : "Enter the studio"}
+                    </span>
+                    <i
+                      className={`fa-solid ${
+                        adminMode ? "fa-shield-halved" : "fa-arrow-right"
+                      } text-[11px]`}
+                      aria-hidden="true"
+                    />
                   </>
                 )}
               </button>
             </form>
 
-            <div className="relative my-7 text-center">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-line" />
-              </div>
-              <span className="relative bg-cream px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-ink-soft">
-                Or continue with
-              </span>
-            </div>
+            {!adminMode && (
+              <>
+                <div className="relative my-7 text-center">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-line" />
+                  </div>
+                  <span className="relative bg-cream px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-ink-soft">
+                    Or continue with
+                  </span>
+                </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => handleSsoClick("Google")}
-                className="flex items-center justify-center gap-2 rounded-md border border-line bg-white px-3 py-2.5 text-xs font-semibold text-ink transition-colors duration-200 hover:border-ink"
-              >
-                <i className="fa-brands fa-google" aria-hidden="true" />
-                <span>Google</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleSsoClick("Apple")}
-                className="flex items-center justify-center gap-2 rounded-md border border-line bg-white px-3 py-2.5 text-xs font-semibold text-ink transition-colors duration-200 hover:border-ink"
-              >
-                <i className="fa-brands fa-apple" aria-hidden="true" />
-                <span>Apple</span>
-              </button>
-            </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handleSsoClick("Google")}
+                    className="flex items-center justify-center gap-2 rounded-md border border-line bg-white px-3 py-2.5 text-xs font-semibold text-ink transition-colors duration-200 hover:border-ink"
+                  >
+                    <i className="fa-brands fa-google" aria-hidden="true" />
+                    <span>Google</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSsoClick("Apple")}
+                    className="flex items-center justify-center gap-2 rounded-md border border-line bg-white px-3 py-2.5 text-xs font-semibold text-ink transition-colors duration-200 hover:border-ink"
+                  >
+                    <i className="fa-brands fa-apple" aria-hidden="true" />
+                    <span>Apple</span>
+                  </button>
+                </div>
 
-            <button
-              type="button"
-              onClick={() => handleSsoClick("Corporate SSO")}
-              className="mt-4 w-full text-center text-[11px] font-medium text-ink-soft transition-colors duration-200 hover:text-ink hover:underline"
-            >
-              Log in with Single Sign-On (SSO)
-            </button>
+                <button
+                  type="button"
+                  onClick={() => handleSsoClick("Corporate SSO")}
+                  className="mt-4 w-full text-center text-[11px] font-medium text-ink-soft transition-colors duration-200 hover:text-ink hover:underline"
+                >
+                  Log in with Single Sign-On (SSO)
+                </button>
+              </>
+            )}
 
             <div className="mt-8 flex items-start gap-2.5 border-t border-line pt-5 text-[11px] leading-relaxed text-ink-soft">
               <i className="fa-solid fa-shield-halved mt-0.5 text-ink" aria-hidden="true" />

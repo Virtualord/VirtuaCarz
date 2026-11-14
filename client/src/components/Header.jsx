@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/features/authSlice";
+import { ADMIN_APP_URL } from "../utils/admin";
 
 const NAV_LINKS = [
   { name: "Home", path: "/" },
@@ -187,6 +188,17 @@ const Header = () => {
                         <span>Explore the fleet</span>
                       </Link>
 
+                      {user?.isAdmin && (
+                        <a
+                          href={ADMIN_APP_URL}
+                          role="menuitem"
+                          className="flex items-center gap-3 rounded-sm px-3 py-2 text-xs font-medium text-ink-soft transition-colors duration-150 hover:bg-cream hover:text-ink"
+                        >
+                          <i className="fa-solid fa-shield-halved w-4 text-center text-[11px]" aria-hidden="true" />
+                          <span>Admin studio</span>
+                        </a>
+                      )}
+
                       <div className="my-1 h-px bg-line" />
 
                       <button
@@ -309,6 +321,17 @@ const Header = () => {
                         My profile
                         <i className="fa-solid fa-arrow-right text-[9px] text-ink-soft" aria-hidden="true" />
                       </Link>
+
+                      {user?.isAdmin && (
+                        <a
+                          href={ADMIN_APP_URL}
+                          onClick={() => setMenuOpen(false)}
+                          className="flex items-center justify-between border-b border-line py-3 text-sm font-semibold text-ink"
+                        >
+                          Admin studio
+                          <i className="fa-solid fa-shield-halved text-[9px] text-ink-soft" aria-hidden="true" />
+                        </a>
+                      )}
 
                       <button
                         type="button"

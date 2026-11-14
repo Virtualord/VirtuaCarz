@@ -104,7 +104,8 @@ The API runs at `http://localhost:8080` by default. Its base path is `/api/v1`.
 
 ### 2. Configure and start the customer app
 
-Create `client/.env.local` (or copy `client/.env.example`):
+Create `client/.env.local` (or copy `client/.env.example`). `VITE_BASEURL` is
+optional — the Vite dev server proxies `/api` to the API on port `8080`:
 
 ```dotenv
 VITE_BASEURL=http://localhost:8080/api/v1
@@ -120,7 +121,8 @@ npm run dev
 
 ### 3. Configure and start the admin panel
 
-Create `admin-panel/.env.local` (or copy `admin-panel/.env.example`) with the same API URL:
+Create `admin-panel/.env.local` (or copy `admin-panel/.env.example`) with the
+same API URL. It is optional for the same reason as the customer app:
 
 ```dotenv
 VITE_BASEURL=http://localhost:8080/api/v1
@@ -134,11 +136,20 @@ npm install
 npm run dev
 ```
 
-Keep the server and each Vite app running in separate terminals. Vite prints the local URL for each app; if the customer app already uses port `5173`, Vite will select another available port for the admin panel.
+Keep the server and each Vite app running in separate terminals. The customer
+app uses `http://localhost:5173/` and the admin panel uses
+`http://localhost:5174/admin/`. The customer dev server also proxies `/admin/`,
+so both apps are available from one origin at `http://localhost:5173/` and
+`http://localhost:5173/admin/`.
 
 ### Create an administrator
 
-Register a user through the customer app first. New users have `isAdmin: false`. To use admin-only fleet and booking controls locally, set that account's `isAdmin` field to `true` in the MongoDB `users` collection, then sign in to the admin panel with that account.
+Register a user through the customer app first. New users have `isAdmin: false`. To use admin-only fleet and booking controls locally, set that account's `isAdmin` field to `true` in the MongoDB `users` collection.
+
+Once promoted, sign in from the customer login page with the **Administrator**
+option selected. The app opens the admin panel at `/admin/` and the shared
+session carries across. Signed-in administrators also get an **Admin studio**
+link in the account menu.
 
 ## API overview
 
@@ -175,10 +186,77 @@ Run these from the relevant app directory:
 | `npm run preview` | Preview a production build (`client` or `admin-panel`) |
 | `npm start` | Start the API (`server`) |
 
+From the repository root, the wrapper scripts are:
+
+| Command | Description |
+| --- | --- |
+| `npm run install:all` | Install `client`, `admin-panel`, and `server` dependencies |
+| `npm run build` | Build both frontends |
+| `npm start` | Start the API, which also serves both frontend builds |
+
+## Deploy as a single service
+
+The API can serve the customer app, the admin panel, and the REST API from one
+origin:
+
+```text
+/            → client/dist
+/admin/      → admin-panel/dist
+/api/v1      → Express API
+/api/health  → health check
+```
+
+Build both frontends and start the server:
+
+```bash
+npm run install:all
+npm run build
+npm start
+```
+
+Open `http://localhost:8080/`; the admin panel is at
+`http://localhost:8080/admin/`.
+
+### Deploying to Render
+
+1. Create a MongoDB Atlas cluster (M0 is enough), add a database user, and copy
+   the SRV connection string. Add `/virtuacarz` before the `?`. Allow
+   connections from Render (`0.0.0.0/0` on the free plan).
+2. In Render, create a **Web Service** from this repository and leave the root
+   directory at the repository root.
+3. Set the build command to `npm run install:all && npm run build`, the start
+   command to `npm start`, and the health check path to `/api/health`.
+4. Add these environment variables:
+
+   | Variable | Value |
+   | --- | --- |
+   | `MONGO_URI` | Atlas SRV connection string |
+   | `JWT_SECRET` | A long random string (`openssl rand -hex 32`) |
+   | `DEV_MODE` | `production` |
+   | `NODE_VERSION` | `24` |
+
+   Do not set `PORT`; Render provides it.
+5. Deploy, then open `https://<service>.onrender.com/`. The admin panel is at
+   `/admin/`.
+
+The production frontends fall back to `/api/v1` on their own origin, so
+`VITE_BASEURL` is not required. If you set it, use a URL reachable from the
+browser.
+
+> Render's free instance sleeps after inactivity, so the first request after a
+> quiet period can take 30–60 seconds. Use a paid instance if you need it
+> always-on.
+
+The same build and start commands work on Railway and Fly.io. For a VPS, run
+`npm start` behind Caddy or nginx and proxy port `8080`. Set `HOST=127.0.0.1`
+if the proxy runs on the same machine.
+
 ## Notes
 
-- The frontends read `VITE_BASEURL` at build/dev time. Restart Vite after changing `.env.local`.
+- The frontends read `VITE_BASEURL` at build/dev time. Restart Vite after changing `.env.local`. Leave it unset to use the same-origin `/api/v1` fallback.
+- The admin panel is served under `/admin/` in development (through the customer Vite proxy) and in production.
 - The API uses `MONGO_URI` and `JWT_SECRET` from `server/.env`.
+- The server binds to `0.0.0.0` by default; set `HOST` to restrict it.
 - Car images are stored as Base64 strings in MongoDB, so consider the database size implications when adding large images.
 
 ## Contributing

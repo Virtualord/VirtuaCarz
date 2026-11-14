@@ -1,7 +1,8 @@
 import axios from "axios"
 
 const API = axios.create({
-    baseURL: import.meta.env.VITE_BASEURL,
+    // Production builds call the API on the same origin; Vite proxies /api in dev.
+    baseURL: import.meta.env.VITE_BASEURL || "/api/v1",
 });
 
 API.interceptors.request.use(async (config) => {
